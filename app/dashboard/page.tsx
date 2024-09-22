@@ -1,3 +1,9 @@
+import CategoryForm from "@/components/menu/category-form"
+
 export default function Dashboard() {
-  return <div>Dashboard Home</div>
+  return (
+    <div>
+      <CategoryForm />
+    </div>
+  )
 }
