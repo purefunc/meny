@@ -1,9 +1,9 @@
-import CategoryForm from "@/components/menu/category-form"
+import MenuForm from "@/components/menu/menu-form"
 
 export default function Dashboard() {
   return (
     <div>
-      <CategoryForm />
+      <MenuForm />
     </div>
   )
 }
