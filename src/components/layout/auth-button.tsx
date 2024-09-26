@@ -30,7 +30,7 @@ export default function AuthButton() {
     <Button
       onClick={() =>
         signIn("google", {
-          callbackUrl: "/dashboard/profile",
+          callbackUrl: "/profile",
         })
       }
     >

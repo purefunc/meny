@@ -26,7 +26,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { addMenu, getMenus } from "@/src/app/dashboard/menu/actions";
+import { addMenu, getMenus } from "@/src/app/menus/actions";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),

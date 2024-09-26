@@ -33,6 +33,6 @@ export async function createGuestbookEntry(
     message: submission.value.message,
   });
 
-  revalidatePath("/dashboard/guestbook");
-  redirect("/dashboard/guestbook");
+  revalidatePath("/guestbook");
+  redirect("/guestbook");
 }

@@ -19,19 +19,14 @@ export default function Breadcrumbs() {
   return (
     <Breadcrumb className="hidden md:flex">
       <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbLink asChild>
-            <Link href="/dashboard">Home</Link>
-          </BreadcrumbLink>
-        </BreadcrumbItem>
         {pathSegments.map((segment, index) => {
-          const href = `/dashboard/${pathSegments.slice(0, index + 1).join("/")}`;
+          const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
           const isLast = index === pathSegments.length - 1;
 
-          if (index > 0)
+          if (pathSegments.length > 1)
             return (
               <BreadcrumbItem key={href}>
-                <BreadcrumbSeparator />
+                {index > 0 && <BreadcrumbSeparator />}
                 {isLast ? (
                   <BreadcrumbPage>{segment}</BreadcrumbPage>
                 ) : (
