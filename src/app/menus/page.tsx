@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/dialog";
 import db from "@/db";
 
-import MenuClient from "./page.client";
+import MenusClient from "./page.client";
 
 export default async function GuestBook() {
   const menus = await db.query.menus.findMany({
@@ -28,7 +28,6 @@ export default async function GuestBook() {
       return operators.desc(fields.createdAt);
     },
   });
-  console.log("menus", menus);
 
   if (menus.length === 0) {
     return (
@@ -36,7 +35,7 @@ export default async function GuestBook() {
         <h1 className="text-3xl">Create Your First Menu</h1>
         <Card className="max-w-xl">
           <CardContent>
-            <MenuClient />
+            <MenusClient />
           </CardContent>
         </Card>
       </>
@@ -58,7 +57,7 @@ export default async function GuestBook() {
             <DialogHeader>
               <DialogTitle>New Menu</DialogTitle>
             </DialogHeader>
-            <MenuClient />
+            <MenusClient />
           </DialogContent>
         </Dialog>
       </div>

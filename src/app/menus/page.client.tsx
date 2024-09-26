@@ -12,7 +12,7 @@ import { CreateMenuSchema } from "@/db/schema/menus";
 
 import { createMenu } from "./actions";
 
-export default function MenuClient() {
+export default function MenusClient() {
   const [lastResult, action] = useFormState(createMenu, undefined);
   const [form, fields] = useForm({
     lastResult,

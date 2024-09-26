@@ -25,7 +25,7 @@ import Breadcrumbs from "./breadcrumbs";
 import MobileNav from "./mobile-nav";
 
 export default function TopNav() {
-  const { data, status } = useSession();
+  const { data } = useSession();
   const { setTheme } = useTheme();
 
   return (

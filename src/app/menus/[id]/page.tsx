@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 
 import db from "@/db";
 
+import MenuClient from "./page.client";
+
 interface MenuIdPageProps {
   params: { id: string };
 }
@@ -13,15 +15,14 @@ export default async function MenuIdPage({ params }: MenuIdPageProps) {
     where(fields, operators) {
       return operators.eq(fields.id, menuId);
     },
+    with: {
+      categories: true,
+    },
   });
 
   if (!menu) {
     notFound();
   }
 
-  return (
-    <div>
-      <h1>{menu.name}</h1>
-    </div>
-  );
+  return <MenuClient menu={menu} />;
 }

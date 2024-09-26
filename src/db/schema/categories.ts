@@ -14,6 +14,7 @@ import users from "./users";
 
 export const categories = pgTable("categories", {
   id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull(),
   menuId: uuid("menuId")
     .notNull()
     .references(() => menus.id, { onDelete: "cascade" }),

@@ -9,6 +9,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 
+import { categories } from "./categories";
 import users from "./users";
 
 export const menus = pgTable("menus", {
@@ -29,11 +30,12 @@ export const menus = pgTable("menus", {
   message: text("message"),
 });
 
-export const menusRelations = relations(menus, ({ one }) => ({
+export const menusRelations = relations(menus, ({ one, many }) => ({
   user: one(users, {
     fields: [menus.userId],
     references: [users.id],
   }),
+  categories: many(categories),
 }));
 
 export const CreateMenuSchema = createInsertSchema(menus).pick({
@@ -42,4 +44,9 @@ export const CreateMenuSchema = createInsertSchema(menus).pick({
   description: true,
 });
 
-// export const MenuSchema = createSelectSchema(menus);
+export const UpdateMenuSchema = createInsertSchema(menus).omit({
+  userId: true,
+  createdAt: true,
+  updatedAt: true,
+  updatedBy: true,
+});
