@@ -223,8 +223,13 @@ export default function MenuForm({ menu }) {
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="category">
                     <AccordionTrigger className="px-4 py-2 hover:no-underline">
-                      {form.watch(`categories.${categoryIndex}.name`) ||
-                        `Category ${categoryIndex + 1}`}
+                      <div className="flex items-center gap-2">
+                        {form.watch(`categories.${categoryIndex}.name`) ||
+                          `Category ${categoryIndex + 1}`}
+                        {form.watch(`categories.${categoryIndex}.isHidden`) && (
+                          <EyeOff className="h-4 w-4 text-muted-foreground" />
+                        )}
+                      </div>
                     </AccordionTrigger>
                     <AccordionContent className="border-t">
                       <div className="relative flex flex-col gap-6 space-y-4 p-4">
@@ -268,6 +273,30 @@ export default function MenuForm({ menu }) {
                                 />
                               </FormControl>
                               <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name={`categories.${categoryIndex}.isHidden`}
+                          render={({ field }) => (
+                            <FormItem className="flex flex-row items-center justify-between">
+                              <div className="space-y-0.5">
+                                <FormLabel className="text-base">
+                                  Hidden
+                                </FormLabel>
+                                <FormDescription>
+                                  Hide this category & all it's items from the
+                                  menu if it is not available.
+                                </FormDescription>
+                              </div>
+                              <FormControl>
+                                <Switch
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
+                              </FormControl>
                             </FormItem>
                           )}
                         />
@@ -359,7 +388,7 @@ function MenuItemsFieldArray({
 }) {
   const { fields, append, remove } = useFieldArray({
     control: form.control,
-    name: `categories.${categoryIndex}.items`,
+    name: `categories.${categoryIndex}.menuItems`,
   });
 
   return (
@@ -372,10 +401,19 @@ function MenuItemsFieldArray({
           <AccordionTrigger className="text-left hover:no-underline">
             <div className="flex items-center gap-2">
               {form.watch(
-                `categories.${categoryIndex}.items.${itemIndex}.name`
+                `categories.${categoryIndex}.menuItems.${itemIndex}.posId`
+              ) && (
+                <p className="text-sm font-semibold">
+                  {form.watch(
+                    `categories.${categoryIndex}.menuItems.${itemIndex}.posId`
+                  )}
+                </p>
+              )}
+              {form.watch(
+                `categories.${categoryIndex}.menuItems.${itemIndex}.name`
               ) || `Item ${itemIndex + 1}`}
               {form.watch(
-                `categories.${categoryIndex}.items.${itemIndex}.hidden`
+                `categories.${categoryIndex}.menuItems.${itemIndex}.isHidden`
               ) && <EyeOff className="h-4 w-4 text-muted-foreground" />}
             </div>
           </AccordionTrigger>
@@ -393,7 +431,7 @@ function MenuItemsFieldArray({
 
               <FormField
                 control={form.control}
-                name={`categories.${categoryIndex}.items.${itemIndex}.name`}
+                name={`categories.${categoryIndex}.menuItems.${itemIndex}.name`}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Item Name</FormLabel>
@@ -407,7 +445,25 @@ function MenuItemsFieldArray({
 
               <FormField
                 control={form.control}
-                name={`categories.${categoryIndex}.items.${itemIndex}.description`}
+                name={`categories.${categoryIndex}.menuItems.${itemIndex}.posId`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>ID</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter a custom ID" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      An optional custom ID commonly used to match with a POS
+                      system.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name={`categories.${categoryIndex}.menuItems.${itemIndex}.description`}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Item Description</FormLabel>
@@ -424,7 +480,7 @@ function MenuItemsFieldArray({
 
               <FormField
                 control={form.control}
-                name={`categories.${categoryIndex}.items.${itemIndex}.price`}
+                name={`categories.${categoryIndex}.menuItems.${itemIndex}.price`}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Price</FormLabel>
@@ -448,7 +504,7 @@ function MenuItemsFieldArray({
 
               <FormField
                 control={form.control}
-                name={`categories.${categoryIndex}.items.${itemIndex}.image`}
+                name={`categories.${categoryIndex}.menuItems.${itemIndex}.image`}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Image URL</FormLabel>
@@ -462,7 +518,7 @@ function MenuItemsFieldArray({
 
               <FormField
                 control={form.control}
-                name={`categories.${categoryIndex}.items.${itemIndex}.hidden`}
+                name={`categories.${categoryIndex}.menuItems.${itemIndex}.isHidden`}
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-between">
                     <div className="space-y-0.5">

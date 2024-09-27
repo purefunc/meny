@@ -22,7 +22,7 @@ import db from "@/db";
 
 import MenusClient from "./page.client";
 
-export default async function GuestBook() {
+export default async function MenusPage() {
   const menus = await db.query.menus.findMany({
     orderBy(fields, operators) {
       return operators.desc(fields.createdAt);
