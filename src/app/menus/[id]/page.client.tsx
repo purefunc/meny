@@ -1,77 +1,61 @@
 "use client";
 
-import { Fragment } from "react";
+// import { Fragment } from "react";
+// import { Plus } from "lucide-react";
+// import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
-import { useForm } from "@conform-to/react";
-import { parseWithZod } from "@conform-to/zod";
-import { Plus } from "lucide-react";
-import { useFormState } from "react-dom";
-
-// import { useFieldArray, useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { UpdateMenuSchema } from "@/db/schema/menus";
-
-import { updateMenu } from "./actions";
-import CategoryFields from "./category-fields";
-import FooterFields from "./footer-fields";
-import MenuFields from "./menu-fields";
+// import { Separator } from "@/components/ui/separator";
+// import CategoryFields from "./category-fields";
+// import FooterFields from "./footer-fields";
+// import MenuFields from "./menu-fields";
+import MenuForm from "../menu-form";
 import MenuMobileNav from "./menu-mobile-nav";
 import MenuNav from "./menu-nav";
 
 export default function MenuClient({ menu }) {
-  const [lastResult, action] = useFormState(updateMenu, undefined);
-  console.log("lastResult", lastResult);
-  const [form, fields] = useForm({
-    lastResult,
-    onValidate({ formData }) {
-      return parseWithZod(formData, { schema: UpdateMenuSchema });
-    },
-    shouldValidate: "onBlur",
-    shouldRevalidate: "onInput",
-    defaultValue: {
-      name: menu.name,
-      description: menu.description || "",
-      notes: menu.notes || "",
-      message: menu.message || "",
-      categories: menu.categories || [
-        {
-          name: "",
-          description: "",
-          image: "",
-          items: [],
-        },
-      ],
-    },
-  });
-  const categories = fields.categories.getFieldList();
-
-  // console.log("categories", categories);
-
-  // const form = useForm<z.infer<typeof formSchema>>({
-  //   resolver: zodResolver(formSchema),
-  //   defaultValues: {
-  //     title: "",
-  //     description: "",
-  //     categories: [],
+  // const [lastResult, action] = useFormState(updateMenu, undefined);
+  // const [form, fields] = useForm({
+  //   lastResult,
+  //   onSubmit: (event, { formData }) => {
+  //     const intent = formData.get("intent");
+  //     if (intent?.startsWith("insert")) {
+  //       // Handle the insert intent if needed
+  //       event.preventDefault();
+  //       // You can perform additional actions here
+  //     }
+  //     // Handle other intents or submit the form as usual
+  //   },
+  //   onValidate({ formData }) {
+  //     return parseWithZod(formData, { schema: UpdateMenuSchema });
+  //   },
+  //   shouldValidate: "onBlur",
+  //   shouldRevalidate: "onInput",
+  //   defaultValue: {
+  //     name: menu.name,
+  //     description: menu.description || "",
+  //     notes: menu.notes || "",
+  //     message: menu.message || "",
+  //     categories: menu.categories || [
+  //       {
+  //         name: "",
+  //         description: "",
+  //         image: "",
+  //         items: [
+  //           {
+  //             name: "",
+  //             description: "",
+  //             price: "",
+  //           },
+  //         ],
+  //       },
+  //     ],
   //   },
   // });
+  // console.log("form", form);
 
-  // const {
-  //   fields: categoryFields,
-  //   append: appendCategory,
-  //   remove: removeCategory,
-  // } = useFieldArray({
-  //   control: form.control,
-  //   name: "categories",
-  // });
+  // const categories = fields.categories.getFieldList();
+  // console.log("categories", categories);
 
   return (
     <div className="flex h-[calc(100vh_-_theme(spacing.16))] flex-col bg-muted/40">
@@ -86,7 +70,8 @@ export default function MenuClient({ menu }) {
         </div>
         <div className="flex flex-col overflow-hidden">
           <Card className="flex h-full flex-col">
-            <form
+            <MenuForm menu={menu} />
+            {/* <form
               id={form.id}
               onSubmit={form.onSubmit}
               action={action}
@@ -100,24 +85,37 @@ export default function MenuClient({ menu }) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <MenuFields menu={menu} fields={fields} />
+                <MenuFields fields={fields} />
               </CardContent>
               <Separator />
               <CardHeader>
                 <CardTitle id="categories">Categories</CardTitle>
               </CardHeader>
-              {categories.map((category) => (
-                <Fragment key={category.id}>
-                  <CardContent>
-                    <CategoryFields category={category} fields={fields} />
-                  </CardContent>
-                  <Separator />
-                </Fragment>
-              ))}
-              <Button className="mt-2">
-                Add Category
-                <Plus className="ml-2 h-4 w-4" />
-              </Button>
+              <CardContent>
+                {categories.map((category) => (
+                  <Fragment key={category.id}>
+                    <CategoryFields category={category} />
+                    <Separator />
+                  </Fragment>
+                ))}
+                <Button
+                  className="mt-2"
+                  {...form.insert.getButtonProps({
+                    name: fields.categories.name,
+                    defaultValue: {
+                      name: "",
+                      description: "",
+                      image: "",
+                      items: [],
+                    },
+                  })}
+                >
+                  <Plus className="ml-2 h-4 w-4" />
+                  Add Category
+                </Button>
+              </CardContent>
+
+              <Separator />
 
               <CardHeader>
                 <CardTitle id="general">Footer</CardTitle>
@@ -126,14 +124,14 @@ export default function MenuClient({ menu }) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <FooterFields menu={menu} fields={fields} />
+                <FooterFields fields={fields} />
               </CardContent>
             </form>
-            <div className="mt-auto border-t bg-card p-6">
+            <CardFooter className="mt-auto border-t bg-card p-6">
               <Button type="submit" form={form.id} className="w-full">
                 Update Menu
               </Button>
-            </div>
+            </CardFooter> */}
           </Card>
         </div>
       </div>

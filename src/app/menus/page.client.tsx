@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { CreateMenuSchema } from "@/db/schema/menus";
+import { InsertMenuSchema } from "@/db/schema/menus";
 
 import { createMenu } from "./actions";
 
@@ -17,7 +17,7 @@ export default function MenusClient() {
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
-      return parseWithZod(formData, { schema: CreateMenuSchema });
+      return parseWithZod(formData, { schema: InsertMenuSchema });
     },
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",

@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus, Trash } from "lucide-react";
+import { DollarSign, EyeOff, Plus, Trash } from "lucide-react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
 import {
@@ -15,6 +14,13 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import {
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
   Form,
   FormControl,
   FormDescription,
@@ -24,39 +30,80 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { addMenu, getMenus } from "@/src/app/menus/actions";
+import { UpdateMenuSchema } from "@/db/schema/menus";
 
-const formSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  description: z.string().optional(),
-  categories: z.array(
-    z.object({
-      title: z.string().min(1, "Category title is required"),
-      description: z.string().optional(),
-      items: z.array(
-        z.object({
-          title: z.string().min(1, "Item title is required"),
-          description: z.string().optional(),
-          price: z.number().min(0, "Price must be non-negative"),
-          hidden: z.boolean().default(false),
-          image_src: z.string().optional(),
-        })
-      ),
-    })
-  ),
-});
+import { updateMenu } from "./[id]/actions";
 
-export default function MenuForm() {
-  const [menus, setMenus] = useState([]);
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+export default function MenuForm({ menu }) {
+  const form = useForm<z.infer<typeof UpdateMenuSchema>>({
+    resolver: zodResolver(UpdateMenuSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      categories: [],
+      id: menu.id,
+      name: menu?.name || "",
+      description: menu?.description || "",
+      image: menu?.image || "",
+      notes: menu?.notes || "",
+      isPublic: menu?.isPublic || false,
+      message: menu?.message || "",
+      categories:
+        menu?.categories?.length > 0
+          ? menu.categories.map((category) => ({
+              id: category.id,
+              name: category.name,
+              description: category.description,
+              isHidden: category.isHidden,
+              image: category.image,
+              notes: category.notes,
+              menuItems:
+                category?.menuItems?.length > 0
+                  ? category.menuItems.map((item) => ({
+                      id: item.id,
+                      name: item.name,
+                      description: item.description,
+                      price: item.price,
+                      isHidden: item.isHidden,
+                      isSeasonal: item.isSeasonal,
+                      image: item.image,
+                      tags: item.tags,
+                    }))
+                  : [
+                      {
+                        id: undefined,
+                        name: "",
+                        description: "",
+                        price: "",
+                        isHidden: false,
+                        isSeasonal: false,
+                        image: "",
+                        tags: [],
+                      },
+                    ],
+            }))
+          : [
+              {
+                id: undefined,
+                name: "",
+                description: "",
+                isHidden: false,
+                image: "",
+                notes: "",
+                menuItems: [
+                  {
+                    id: undefined,
+                    name: "",
+                    description: "",
+                    price: "",
+                    isHidden: false,
+                    isSeasonal: false,
+                    image: "",
+                    tags: [],
+                  },
+                ],
+              },
+            ],
     },
   });
 
@@ -69,143 +116,237 @@ export default function MenuForm() {
     name: "categories",
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    await addMenu(values.title, values.description);
-    const data = await getMenus();
-    setMenus(data);
-  }
+  const onSubmit = async (values: z.infer<typeof UpdateMenuSchema>) => {
+    const result = await updateMenu(values);
+    console.log("result", result);
 
-  useEffect(() => {
-    async function fetchMenus() {
-      const data = await getMenus();
-      setMenus(data);
+    if (result.success) {
+      toast.success(result.message || "Menu updated successfully");
+    } else {
+      toast.error(result.message || "Failed to update menu");
     }
-    fetchMenus();
-  }, []);
+  };
+
+  console.log("Form errors:", form.formState.errors);
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="mx-auto max-w-3xl space-y-6 p-6"
-      >
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Menu Title</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter menu title" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <>
+      <Form {...form}>
+        <form
+          id="menu-form"
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-6 overflow-y-auto"
+        >
+          <CardHeader>
+            <CardTitle id="general">Menu Details</CardTitle>
+            <CardDescription>
+              This will show at the top of the menu and in the meta data.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-6">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Menu Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter establishment or menu name"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Menu Description</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Enter menu description" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <div className="space-y-6">
-          <h2 className="text-xl font-semibold">Categories</h2>
-          {categoryFields.map((categoryField, categoryIndex) => (
-            <div
-              key={categoryField.id}
-              className="overflow-hidden rounded-lg border"
-            >
-              <Accordion type="single" collapsible className="w-full">
-                <AccordionItem value="category" className="border-none">
-                  <AccordionTrigger className="px-4 py-2 hover:no-underline">
-                    {form.watch(`categories.${categoryIndex}.title`) ||
-                      `Category ${categoryIndex + 1}`}
-                  </AccordionTrigger>
-                  <AccordionContent className="border-t">
-                    <div className="relative space-y-4 p-4">
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="icon"
-                        className="absolute right-2 top-2"
-                        onClick={() => removeCategory(categoryIndex)}
-                      >
-                        <Trash className="h-4 w-4" />
-                      </Button>
-
-                      <FormField
-                        control={form.control}
-                        name={`categories.${categoryIndex}.title`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Category Title</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Enter category title"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name={`categories.${categoryIndex}.description`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Category Description</FormLabel>
-                            <FormControl>
-                              <Textarea
-                                placeholder="Enter category description"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <div className="space-y-4">
-                        <h3 className="text-lg font-medium">Menu Items</h3>
-                        <MenuItemsFieldArray
-                          form={form}
-                          categoryIndex={categoryIndex}
-                        />
-                      </div>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Menu Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Enter your establishment or menu description"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    This will show when sharing the menu URL.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </CardContent>
+          <Separator />
+          <CardHeader>
+            <div className="flex justify-between">
+              <div className="flex flex-col gap-1">
+                <CardTitle id="categories">Categories</CardTitle>
+                <CardDescription>
+                  These are the categories that will show on the menu.
+                </CardDescription>
+              </div>
+              <Button
+                type="button"
+                size="sm"
+                onClick={() =>
+                  appendCategory({
+                    id: undefined,
+                    name: "",
+                    description: "",
+                    menuItems: [
+                      {
+                        id: undefined,
+                        name: "",
+                        description: "",
+                        price: "",
+                        isHidden: false,
+                        isSeasonal: false,
+                        image: "",
+                        tags: [],
+                      },
+                    ],
+                  })
+                }
+              >
+                <Plus className="mr-2 h-3 w-3" /> Add Category
+              </Button>
             </div>
-          ))}
+          </CardHeader>
+          <CardContent>
+            {categoryFields.map((categoryField, categoryIndex) => (
+              <div key={categoryField.id} className="flex flex-col gap-6">
+                <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="category">
+                    <AccordionTrigger className="px-4 py-2 hover:no-underline">
+                      {form.watch(`categories.${categoryIndex}.name`) ||
+                        `Category ${categoryIndex + 1}`}
+                    </AccordionTrigger>
+                    <AccordionContent className="border-t">
+                      <div className="relative flex flex-col gap-6 space-y-4 p-4">
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="icon"
+                          className="absolute right-2 top-2"
+                          onClick={() => removeCategory(categoryIndex)}
+                        >
+                          <Trash className="h-4 w-4" />
+                        </Button>
 
+                        <FormField
+                          control={form.control}
+                          name={`categories.${categoryIndex}.name`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Category Name</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Enter category name"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name={`categories.${categoryIndex}.description`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Category Description</FormLabel>
+                              <FormControl>
+                                <Textarea
+                                  placeholder="Enter category description"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <div className="space-y-4">
+                          <h3 className="text-lg font-medium">Menu Items</h3>
+                          <MenuItemsFieldArray
+                            form={form}
+                            categoryIndex={categoryIndex}
+                          />
+                        </div>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </div>
+            ))}
+          </CardContent>
+          <Separator />
+
+          <CardHeader>
+            <CardTitle id="footer">Menu Footer</CardTitle>
+            <CardDescription>
+              This information will show at the bottom of the menu.
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className="flex flex-col gap-6">
+            <FormField
+              control={form.control}
+              name="notes"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Notes</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Enter optional notes" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Notes about tax, tipping, etc.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="message"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Message</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Enter an optional message"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Commonly used to show a disclaimer, copyright, or food
+                    warning.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </CardContent>
+        </form>
+        <CardFooter className="mt-auto rounded-b-lg border-t bg-card p-6">
           <Button
-            type="button"
-            onClick={() =>
-              appendCategory({ title: "", description: "", items: [] })
-            }
+            type="submit"
+            form="menu-form"
             className="w-full"
+            onClick={() => console.log("Update Menu button clicked")}
           >
-            <Plus className="mr-2 h-4 w-4" /> Add Category
+            Update Menu
           </Button>
-        </div>
-
-        <Button type="submit" className="w-full">
-          Submit Menu
-        </Button>
-      </form>
-    </Form>
+        </CardFooter>
+      </Form>
+    </>
   );
 }
 
@@ -227,15 +368,19 @@ function MenuItemsFieldArray({
         <AccordionItem
           key={field.id}
           value={`item-${categoryIndex}-${itemIndex}`}
-          noBorder
         >
           <AccordionTrigger className="text-left hover:no-underline">
-            {form.watch(
-              `categories.${categoryIndex}.items.${itemIndex}.title`
-            ) || `Item ${itemIndex + 1}`}
+            <div className="flex items-center gap-2">
+              {form.watch(
+                `categories.${categoryIndex}.items.${itemIndex}.name`
+              ) || `Item ${itemIndex + 1}`}
+              {form.watch(
+                `categories.${categoryIndex}.items.${itemIndex}.hidden`
+              ) && <EyeOff className="h-4 w-4 text-muted-foreground" />}
+            </div>
           </AccordionTrigger>
           <AccordionContent>
-            <div className="relative space-y-4 rounded-lg border p-4">
+            <div className="relative flex flex-col gap-6 space-y-4 rounded-lg border p-4">
               <Button
                 type="button"
                 variant="destructive"
@@ -248,12 +393,12 @@ function MenuItemsFieldArray({
 
               <FormField
                 control={form.control}
-                name={`categories.${categoryIndex}.items.${itemIndex}.title`}
+                name={`categories.${categoryIndex}.items.${itemIndex}.name`}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Item Title</FormLabel>
+                    <FormLabel>Item Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter item title" {...field} />
+                      <Input placeholder="Enter item name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -283,15 +428,32 @@ function MenuItemsFieldArray({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Price</FormLabel>
+                    <div className="flex items-center gap-2">
+                      <DollarSign className="h-4 w-4" />
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Enter price"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(parseFloat(e.target.value))
+                          }
+                        />
+                      </FormControl>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name={`categories.${categoryIndex}.items.${itemIndex}.image`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Image URL</FormLabel>
                     <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Enter price"
-                        {...field}
-                        onChange={(e) =>
-                          field.onChange(parseFloat(e.target.value))
-                        }
-                      />
+                      <Input placeholder="Enter image URL" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -302,11 +464,11 @@ function MenuItemsFieldArray({
                 control={form.control}
                 name={`categories.${categoryIndex}.items.${itemIndex}.hidden`}
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                  <FormItem className="flex flex-row items-center justify-between">
                     <div className="space-y-0.5">
                       <FormLabel className="text-base">Hidden</FormLabel>
                       <FormDescription>
-                        Hide this item from the menu
+                        Hide this item from the menu if it is not available.
                       </FormDescription>
                     </div>
                     <FormControl>
@@ -318,20 +480,6 @@ function MenuItemsFieldArray({
                   </FormItem>
                 )}
               />
-
-              <FormField
-                control={form.control}
-                name={`categories.${categoryIndex}.items.${itemIndex}.image_src`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Image URL</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter image URL" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </div>
           </AccordionContent>
         </AccordionItem>
@@ -340,11 +488,12 @@ function MenuItemsFieldArray({
         type="button"
         onClick={() =>
           append({
-            title: "",
+            id: undefined,
+            name: "",
             description: "",
-            price: 0,
+            price: "",
             hidden: false,
-            image_src: "",
+            image: "",
           })
         }
         className="mt-2 w-full"

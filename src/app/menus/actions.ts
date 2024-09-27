@@ -8,13 +8,13 @@ import { getServerSession } from "next-auth";
 
 import options from "@/config/auth";
 import db from "@/db";
-import { CreateMenuSchema, menus } from "@/db/schema/menus";
+import { InsertMenuSchema, menus } from "@/db/schema/menus";
 import requireAuth from "@/utils/require-auth";
 
 export async function createMenu(prevState: unknown, formData: FormData) {
   await requireAuth();
   const submission = parseWithZod(formData, {
-    schema: CreateMenuSchema,
+    schema: InsertMenuSchema,
   });
 
   if (submission.status !== "success") {

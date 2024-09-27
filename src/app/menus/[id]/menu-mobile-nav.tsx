@@ -68,10 +68,10 @@ export default function MenuMobileNav({ categories }) {
           {searchQuery === "" && (
             <DropdownMenuItem asChild>
               <Link
-                href="#"
+                href="#details"
                 className="px-2 py-1.5 font-semibold hover:bg-accent"
               >
-                General
+                Details
               </Link>
             </DropdownMenuItem>
           )}
@@ -87,7 +87,7 @@ export default function MenuMobileNav({ categories }) {
                   {category.name}
                 </Link>
               </DropdownMenuItem>
-              {category.items.map((item) => (
+              {category?.menuItems?.map((item) => (
                 <DropdownMenuItem key={item.id} asChild>
                   <Link
                     href={`#${item.id}`}

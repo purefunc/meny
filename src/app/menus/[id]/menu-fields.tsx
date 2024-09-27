@@ -2,10 +2,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-export default function MenuFields({ menu, fields }) {
+export default function MenuFields({ fields }) {
   return (
     <div className="flex flex-col gap-6">
-      <input type="hidden" name="id" value={menu.id} />
       <div className="grid w-full gap-1">
         <Label htmlFor="name">Name*</Label>
         <Input
@@ -14,7 +13,7 @@ export default function MenuFields({ menu, fields }) {
           required
           placeholder="Enter establishment or menu name"
           className="w-full"
-          defaultValue={menu.name}
+          defaultValue={fields.name.initialValue}
         />
       </div>
       <div className="grid w-full gap-1">
@@ -24,7 +23,7 @@ export default function MenuFields({ menu, fields }) {
           name={fields.description.name}
           placeholder="Enter your establishment or menu description"
           className="w-full"
-          defaultValue={menu.description || ""}
+          defaultValue={fields.description.initialValue}
         />
         <p className="text-sm text-muted-foreground">
           This will show when sharing the URL to the menu.

@@ -3,6 +3,7 @@ import { Suspense } from "react";
 
 import Nav from "@/components/layout/nav";
 import Providers from "@/components/providers";
+import { Toaster } from "@/components/ui/sonner";
 
 import { APP_DESCRIPTION, APP_NAME } from "./constants";
 import "./globals.css";
@@ -33,6 +34,7 @@ export default function RootLayout({
             </main>
           </Nav>
         </Providers>
+        <Toaster />
       </body>
     </html>
   );
