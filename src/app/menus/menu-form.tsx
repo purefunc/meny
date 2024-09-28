@@ -43,6 +43,7 @@ const menuItemTags = [
   "spicy-2",
   "spicy-3",
   "gluten-free",
+  "seasonal",
 ];
 
 export default function MenuForm({ form }) {
@@ -140,11 +141,11 @@ export default function MenuForm({ form }) {
                     menuItems: [
                       {
                         id: undefined,
+                        posId: "",
                         name: "",
                         description: "",
                         price: "",
                         isHidden: false,
-                        isSeasonal: false,
                         image: "",
                         tags: [],
                       },

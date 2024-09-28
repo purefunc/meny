@@ -24,7 +24,6 @@ export const menuItems = pgTable("menuItems", {
   price: text("price"),
   posId: text("posId").default(""),
   isHidden: boolean("isHidden").notNull().default(false),
-  isSeasonal: boolean("isSeasonal").notNull().default(false),
   image: varchar("image", { length: 2048 }),
   tags: text("tags").array().default([]),
   createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
