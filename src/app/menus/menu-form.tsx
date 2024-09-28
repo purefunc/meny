@@ -1,8 +1,7 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { DollarSign, EyeOff, Plus, Trash } from "lucide-react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 
@@ -46,79 +45,7 @@ const menuItemTags = [
   "gluten-free",
 ];
 
-export default function MenuForm({ menu }) {
-  const form = useForm<z.infer<typeof UpdateMenuSchema>>({
-    resolver: zodResolver(UpdateMenuSchema),
-    defaultValues: {
-      id: menu.id,
-      name: menu?.name || "",
-      description: menu?.description || "",
-      image: menu?.image || "",
-      notes: menu?.notes || "",
-      isPublic: menu?.isPublic || false,
-      message: menu?.message || "",
-      categories:
-        menu?.categories?.length > 0
-          ? menu.categories.map((category) => ({
-              id: category.id,
-              name: category.name,
-              description: category.description,
-              isHidden: category.isHidden,
-              image: category.image,
-              notes: category.notes,
-              menuItems:
-                category?.menuItems?.length > 0
-                  ? category.menuItems.map((item) => ({
-                      id: item.id,
-                      name: item.name,
-                      description: item.description,
-                      price: item.price,
-                      isHidden: item.isHidden,
-                      isSeasonal: item.isSeasonal,
-                      image: item.image,
-                      tags: item.tags,
-                      posId: item.posId,
-                    }))
-                  : [
-                      {
-                        id: undefined,
-                        name: "",
-                        description: "",
-                        price: "",
-                        isHidden: false,
-                        isSeasonal: false,
-                        image: "",
-                        posId: "",
-                        tags: [],
-                      },
-                    ],
-            }))
-          : [
-              {
-                id: undefined,
-                name: "",
-                description: "",
-                isHidden: false,
-                image: "",
-                notes: "",
-                menuItems: [
-                  {
-                    id: undefined,
-                    name: "",
-                    description: "",
-                    price: "",
-                    isHidden: false,
-                    isSeasonal: false,
-                    image: "",
-                    posId: "",
-                    tags: [],
-                  },
-                ],
-              },
-            ],
-    },
-  });
-
+export default function MenuForm({ form }) {
   const {
     fields: categoryFields,
     append: appendCategory,
@@ -499,14 +426,7 @@ function MenuItemsFieldArray({
                     <div className="flex items-center gap-2">
                       <DollarSign className="h-4 w-4" />
                       <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Enter price"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(parseFloat(e.target.value))
-                          }
-                        />
+                        <Input placeholder="Enter price" {...field} />
                       </FormControl>
                     </div>
                     <FormMessage />

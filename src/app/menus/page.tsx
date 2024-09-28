@@ -1,16 +1,7 @@
-import Link from "next/link";
-
 import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -20,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import db from "@/db";
 
+import MenuCard from "./menu-card";
 import MenusClient from "./page.client";
 
 export default async function MenusPage() {
@@ -64,19 +56,7 @@ export default async function MenusPage() {
 
       <div className="flex flex-col gap-4">
         {menus.map((menu) => (
-          <Card className="sm:max-w-xl" key={menu.id}>
-            <CardHeader className="pb-3">
-              <CardTitle>{menu.name}</CardTitle>
-              <CardDescription className="max-w-lg text-balance leading-relaxed">
-                {menu.description}
-              </CardDescription>
-            </CardHeader>
-            <CardFooter>
-              <Button asChild>
-                <Link href={`/menus/${menu.id}`}>View</Link>
-              </Button>
-            </CardFooter>
-          </Card>
+          <MenuCard key={menu.id} menu={menu} />
         ))}
       </div>
     </>
