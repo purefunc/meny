@@ -1,9 +1,5 @@
 export { default as accounts } from "./accounts";
 export {
-  default as guestbookEntries,
-  guestbookEntriesRelations,
-} from "./guestbook-entries";
-export {
   categories,
   categoriesRelations,
   menuItems,

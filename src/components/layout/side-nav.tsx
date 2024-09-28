@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { Book, BookOpenText, Home, Package2, Settings } from "lucide-react";
+import { BookOpenText, Home, Package2, Settings } from "lucide-react";
 
 import { APP_NAME } from "@/app/constants";
 
@@ -14,11 +14,6 @@ export const routes = [
     label: "Home",
     href: "/",
     icon: <Home className="h-5 w-5" />,
-  },
-  {
-    label: "Guestbook",
-    href: "/guestbook",
-    icon: <Book className="h-5 w-5" />,
   },
   {
     label: "Menu",

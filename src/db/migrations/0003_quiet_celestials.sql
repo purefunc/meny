@@ -1,0 +1,1 @@
+ALTER TABLE "menuItems" ALTER COLUMN "tags" SET DATA TYPE text[];

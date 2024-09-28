@@ -37,6 +37,15 @@ import { UpdateMenuSchema } from "@/db/schema/menus";
 
 import { updateMenu } from "./[id]/actions";
 
+const menuItemTags = [
+  "vegan",
+  "vegetarian",
+  "spicy-1",
+  "spicy-2",
+  "spicy-3",
+  "gluten-free",
+];
+
 export default function MenuForm({ menu }) {
   const form = useForm<z.infer<typeof UpdateMenuSchema>>({
     resolver: zodResolver(UpdateMenuSchema),
@@ -68,6 +77,7 @@ export default function MenuForm({ menu }) {
                       isSeasonal: item.isSeasonal,
                       image: item.image,
                       tags: item.tags,
+                      posId: item.posId,
                     }))
                   : [
                       {
@@ -78,6 +88,7 @@ export default function MenuForm({ menu }) {
                         isHidden: false,
                         isSeasonal: false,
                         image: "",
+                        posId: "",
                         tags: [],
                       },
                     ],
@@ -99,6 +110,7 @@ export default function MenuForm({ menu }) {
                     isHidden: false,
                     isSeasonal: false,
                     image: "",
+                    posId: "",
                     tags: [],
                   },
                 ],

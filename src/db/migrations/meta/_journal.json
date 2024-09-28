@@ -8,6 +8,27 @@
       "when": 1727289545564,
       "tag": "0000_lethal_dorian_gray",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1727511162090,
+      "tag": "0001_sticky_wraith",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1727511902003,
+      "tag": "0002_sweet_starbolt",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1727512087843,
+      "tag": "0003_quiet_celestials",
+      "breakpoints": true
     }
   ]
 }

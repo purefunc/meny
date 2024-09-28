@@ -1,7 +1,6 @@
 import { relations } from "drizzle-orm";
 import {
   boolean,
-  pgEnum,
   pgTable,
   text,
   timestamp,
@@ -15,15 +14,6 @@ import users from "./users";
 
 // Tables
 
-export const TagEnum = pgEnum("tag", [
-  "vegan",
-  "vegetarian",
-  "spicy-1",
-  "spicy-2",
-  "spicy-3",
-  "gluten-free",
-]);
-
 export const menuItems = pgTable("menuItems", {
   id: uuid("id").primaryKey().defaultRandom(),
   categoryId: uuid("categoryId")
@@ -32,11 +22,11 @@ export const menuItems = pgTable("menuItems", {
   name: text("name").notNull(),
   description: text("description"),
   price: text("price"),
-  posId: text("posId"),
+  posId: text("posId").default(""),
   isHidden: boolean("isHidden").notNull().default(false),
   isSeasonal: boolean("isSeasonal").notNull().default(false),
   image: varchar("image", { length: 2048 }),
-  tags: TagEnum("tags").array().default([]),
+  tags: text("tags").array().default([]),
   createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "date" }).notNull().defaultNow(),
   updatedBy: uuid("updatedBy")

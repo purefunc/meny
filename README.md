@@ -1,37 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next PG Starter
 
-## Getting Started
+A basic Next.js starter with Postgres.
 
-First, run the development server:
+- [Next PG Starter](#next-start)
+  - [Stack](#stack)
+  - [Setup](#setup)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Stack
+
+- Linting / Code Style
+  - [eslint](https://www.npmjs.com/package/eslint)
+    - [eslint-config-prettier](https://www.npmjs.com/package/eslint-config-prettier)
+      - [ESLint | Next.js](https://nextjs.org/docs/app/building-your-application/configuring/eslint#prettier)
+    - [eslint-plugin-check-file](https://www.nvpmjs.com/package/eslint-plugin-check-file)
+      - [Bulletproof React Guide](https://github.com/alan2207/bulletproof-react/blob/master/docs/project-standards.md#file-naming-conventions)
+    - [eslint-plugin-n](https://www.npmjs.com/package/eslint-plugin-n)
+  - [prettier](https://www.npmjs.com/package/prettier)
+    - [@trivago/prettier-plugin-sort-imports](https://www.npmjs.com/package/@trivago/prettier-plugin-sort-imports)
+    - [prettier-plugin-tailwindcss](https://www.npmjs.com/package/prettier-plugin-tailwindcss)
+      - [Automatic Class Sorting](https://tailwindcss.com/blog/automatic-class-sorting-with-prettier#how-classes-are-sorted)
+- Environment Variables
+  - [dotenv](https://www.npmjs.com/package/dotenv)
+  - [dotenv-expand](https://www.npmjs.com/package/dotenv-expand)
+  - [@t3-oss/env-nextjs](https://www.npmjs.com/package/@t3-oss/env-nextjs)
+    - [Documentation](https://env.t3.gg/docs/nextjs)
+  - [cross-env](https://www.npmjs.com/package/cross-env)
+- Styles / UI
+  - [tailwindcss](https://www.npmjs.com/package/tailwindcss)
+  - [shadcn](https://ui.shadcn.com/docs/installation/next)
+  - [next-themes](https://www.npmjs.com/package/next-themes)
+  - [lucide icons](https://lucide.dev/icons/)
+- Validation
+  - [zod](https://www.npmjs.com/package/zod)
+  - [@conform-to/zod](https://www.npmjs.com/package/@conform-to/zod)
+    - [Conform | Next.js](https://conform.guide/integration/nextjs)
+  - [drizzle-zod](https://www.npmjs.com/package/drizzle-zod)
+    - [Drizzle Zod Docs](https://orm.drizzle.team/docs/zod)
+- Forms
+  - [@conform-to/react](https://www.npmjs.com/package/@conform-to/react)
+- Database
+  - [drizzle-orm](https://www.npmjs.com/package/drizzle-orm)
+  - [postgres](https://www.npmjs.com/package/postgres)
+  - [drizzle-kit](https://www.npmjs.com/package/drizzle-kit)
+- Authentication
+  - [next-auth](https://www.npmjs.com/package/next-auth)
+  - [@auth/drizzle-adapter](https://www.npmjs.com/package/@auth/drizzle-adapter)
+    - [Auth.js Drizzle Adapter Documentation](https://authjs.dev/getting-started/adapters/drizzle)
+
+
+## Setup
+
+1. Install dependencies:
+
+```sh
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Copy the `.env` file:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+cp .env.example .env
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Update the following values in the `.env` file:
 
-## Learn More
+```sh
+NEXTAUTH_SECRET=your-value-here
+GOOGLE_CLIENT_ID=your-value-here
+GOOGLE_CLIENT_SECRET=your-value-here
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Start the database:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sh
+docker compose up
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+5. Migrate the database:
 
-## Deploy on Vercel
+```sh
+pnpm run db:migrate
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+6. Start the app:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# meny
+```sh
+pnpm run dev
+```
