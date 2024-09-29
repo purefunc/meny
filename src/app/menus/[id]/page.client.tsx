@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
 import { useForm, useWatch } from "react-hook-form";
@@ -23,8 +25,7 @@ export default function MenuClient({ menu }) {
       name: menu?.name || "",
       description: menu?.description || "",
       image: menu?.image || "",
-      notes: menu?.notes || "",
-      isPublic: menu?.isPublic || false,
+      notes: menu?.notes || [""],
       message: menu?.message || "",
       categories:
         menu?.categories?.length > 0
@@ -34,7 +35,7 @@ export default function MenuClient({ menu }) {
               description: category.description,
               isHidden: category.isHidden,
               image: category.image,
-              notes: category.notes,
+              notes: category.notes || [""],
               menuItems:
                 category?.menuItems?.length > 0
                   ? category.menuItems.map((item) => ({
@@ -67,7 +68,7 @@ export default function MenuClient({ menu }) {
                 description: "",
                 isHidden: false,
                 image: "",
-                notes: "",
+                notes: [""],
                 menuItems: [
                   {
                     id: undefined,
@@ -75,7 +76,6 @@ export default function MenuClient({ menu }) {
                     description: "",
                     price: "",
                     isHidden: false,
-                    isSeasonal: false,
                     image: "",
                     posId: "",
                     tags: [],
@@ -103,9 +103,11 @@ export default function MenuClient({ menu }) {
           </Badge>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline">
-            <Eye className="mr-2 h-4 w-4" />
-            Preview
+          <Button asChild variant="outline">
+            <Link href={`/menu/${menu.id}`} target="_blank">
+              <Eye className="mr-2 h-4 w-4" />
+              Preview
+            </Link>
           </Button>
           <Button>{menu.isPublic ? "Unpublish Menu" : "Publish Menu"}</Button>
         </div>

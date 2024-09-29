@@ -23,7 +23,7 @@ export const menuItems = pgTable("menuItems", {
   description: text("description"),
   price: text("price"),
   posId: text("posId").default(""),
-  isHidden: boolean("isHidden").notNull().default(false),
+  isHidden: boolean("isHidden"),
   image: varchar("image", { length: 2048 }),
   tags: text("tags").array().default([]),
   createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
@@ -40,14 +40,14 @@ export const categories = pgTable("categories", {
     .notNull()
     .references(() => menus.id, { onDelete: "cascade" }),
   description: text("description"),
-  isHidden: boolean("isHidden").notNull().default(false),
+  isHidden: boolean("isHidden"),
   createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "date" }).notNull().defaultNow(),
   updatedBy: uuid("updatedBy")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   image: varchar("image", { length: 2048 }),
-  notes: text("notes"),
+  notes: text("notes").array().default([]),
 });
 
 export const menus = pgTable("menus", {
@@ -63,8 +63,8 @@ export const menus = pgTable("menus", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   image: varchar("image", { length: 2048 }),
-  notes: text("notes"),
-  isPublic: boolean("isPublic").notNull().default(false),
+  notes: text("notes").array().default([]),
+  isPublic: boolean("isPublic"),
   message: text("message"),
 });
 

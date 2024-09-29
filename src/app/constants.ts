@@ -1,2 +1,3 @@
-export const APP_NAME = "Pure Func - Digital Menu Generator";
-export const APP_DESCRIPTION = "A digital menu generator for restaurants.";
+export const APP_NAME = "Meny - Digital Menu Generator";
+export const APP_DESCRIPTION =
+  "A simple digital menu generator for restaurants.";

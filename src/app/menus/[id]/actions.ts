@@ -15,13 +15,11 @@ export async function updateMenu(data: z.infer<typeof MenuSchema>) {
   await requireAuth();
 
   try {
-    console.log("Received data:", JSON.stringify(data, null, 2));
     const parsed = MenuSchema.safeParse(data);
-    console.log("Parsed data:", JSON.stringify(parsed, null, 2));
 
     if (!parsed.success) {
       console.error("Validation errors:", parsed.error);
-      throw new Error("Invalid form data");
+      return { success: false, message: "Invalid form data" };
     }
 
     const { id, categories: inputCategories, ...menuUpdateData } = data;
@@ -105,7 +103,6 @@ export async function updateMenu(data: z.infer<typeof MenuSchema>) {
 
         // Update or insert menu items
         for (const inputMenuItem of inputMenuItems) {
-          console.log("Processing menu item:", inputMenuItem);
           const { id: inputMenuItemId, ...menuItemUpdateData } = inputMenuItem;
 
           if (inputMenuItemId && existingMenuItemIds.has(inputMenuItemId)) {

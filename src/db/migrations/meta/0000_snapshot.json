@@ -1,5 +1,5 @@
 {
-  "id": "579eb116-f774-4017-8158-cc75d3d28cce",
+  "id": "3a45a945-c909-44c9-9ade-31441cfe4839",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -113,6 +113,12 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "menuId": {
           "name": "menuId",
           "type": "uuid",
@@ -123,13 +129,13 @@
           "name": "description",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "isHidden": {
           "name": "isHidden",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
@@ -155,7 +161,14 @@
           "name": "image",
           "type": "varchar(2048)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'{}'"
         }
       },
       "indexes": {},
@@ -179,56 +192,6 @@
           "tableTo": "user",
           "columnsFrom": [
             "updatedBy"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.guestbook_entries": {
-      "name": "guestbook_entries",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "userId": {
-          "name": "userId",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "message": {
-          "name": "message",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "guestbook_entries_userId_user_id_fk": {
-          "name": "guestbook_entries_userId_user_id_fk",
-          "tableFrom": "guestbook_entries",
-          "tableTo": "user",
-          "columnsFrom": [
-            "userId"
           ],
           "columnsTo": [
             "id"
@@ -267,37 +230,39 @@
           "name": "description",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "price": {
           "name": "price",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
+        },
+        "posId": {
+          "name": "posId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "''"
         },
         "isHidden": {
           "name": "isHidden",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": true
-        },
-        "isSeasonal": {
-          "name": "isSeasonal",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "image": {
           "name": "image",
           "type": "varchar(2048)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "tags": {
           "name": "tags",
           "type": "text[]",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": "'{}'"
         },
         "created_at": {
           "name": "created_at",
@@ -373,7 +338,7 @@
           "name": "description",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "name": {
           "name": "name",
@@ -404,6 +369,25 @@
         "image": {
           "name": "image",
           "type": "varchar(2048)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'{}'"
+        },
+        "isPublic": {
+          "name": "isPublic",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "message": {
+          "name": "message",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         }

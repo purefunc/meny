@@ -1,26 +1,25 @@
-import type { Metadata } from "next";
-import { headers } from "next/headers";
+"use client";
+
+import { usePathname } from "next/navigation";
 import { Suspense } from "react";
 
 import Nav from "@/components/layout/nav";
 import Providers from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
 
-import { APP_DESCRIPTION, APP_NAME } from "./constants";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: APP_NAME,
-  description: APP_DESCRIPTION,
-};
+// export const metadata: Metadata = {
+//   title: APP_NAME,
+//   description: APP_DESCRIPTION,
+// };
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headerList = headers();
-  const pathname = headerList.get("x-current-path");
+  const pathname = usePathname();
   const isMenuPage = pathname.startsWith("/menu/");
   return (
     <html lang="en" suppressHydrationWarning>

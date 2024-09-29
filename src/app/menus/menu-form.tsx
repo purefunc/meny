@@ -1,6 +1,6 @@
 "use client";
 
-import { DollarSign, EyeOff, Plus, Trash } from "lucide-react";
+import { Asterisk, DollarSign, EyeOff, Plus, Trash, X } from "lucide-react";
 import { useFieldArray } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -37,13 +37,13 @@ import { MenuSchema } from "@/db/schema/menus";
 
 import { updateMenu } from "./[id]/actions";
 
-const menuItemTags: Option[] = [
-  { value: "vegan", label: "Vegan" },
-  { value: "vegetarian", label: "Vegetarian" },
-  { value: "spicy-1", label: "Spicy (Mild)" },
-  { value: "spicy-2", label: "Spicy (Medium)" },
-  { value: "spicy-3", label: "Spicy (Hot)" },
-  { value: "gluten-free", label: "Gluten-Free" },
+export const menuItemTags: Option[] = [
+  { value: "vegan", label: "Ⓥ", key: "Vegan" },
+  { value: "vegetarian", label: "🌱", key: "Vegetarian" },
+  { value: "spicy-1", label: "🌶️", key: "Mild" },
+  { value: "spicy-2", label: "🌶️🌶️", key: "Medium" },
+  { value: "spicy-3", label: "🌶️🌶️🌶️", key: "Hot" },
+  { value: "gluten-free", label: "GF", key: "Gluten-Free" },
   { value: "seasonal", label: "Seasonal" },
 ];
 
@@ -57,16 +57,25 @@ export default function MenuForm({ form }) {
     name: "categories",
   });
 
+  const {
+    fields: noteFields,
+    append: appendNote,
+    remove: removeNote,
+  } = useFieldArray({
+    control: form.control,
+    name: "notes",
+  });
+
   const onSubmit = async (values: z.infer<typeof MenuSchema>) => {
     console.log("Submitting values:", JSON.stringify(values, null, 2));
 
     const result = await updateMenu(values);
     console.log("result", result);
 
-    if (result.success) {
-      toast.success(result.message || "Menu updated successfully");
+    if (result?.success) {
+      toast.success(result?.message || "Menu updated successfully");
     } else {
-      toast.error(result.message || "Failed to update menu");
+      toast.error(result?.message || "Failed to update menu");
     }
   };
 
@@ -141,6 +150,9 @@ export default function MenuForm({ form }) {
                     id: undefined,
                     name: "",
                     description: "",
+                    notes: [""],
+                    isHidden: false,
+                    image: "",
                     menuItems: [
                       {
                         id: undefined,
@@ -261,6 +273,86 @@ export default function MenuForm({ form }) {
                           )}
                         />
 
+                        <div>
+                          <FormField
+                            control={form.control}
+                            name={`categories.${categoryIndex}.notes`}
+                            render={() => (
+                              <FormItem>
+                                <FormLabel>Category Notes</FormLabel>
+                                <div className="space-y-2">
+                                  {form
+                                    .watch(
+                                      `categories.${categoryIndex}.notes`,
+                                      []
+                                    )
+                                    .map((note, noteIndex) => (
+                                      <div
+                                        key={noteIndex}
+                                        className="flex items-center space-x-2"
+                                      >
+                                        <Asterisk className="h-4 w-4" />
+                                        <FormControl>
+                                          <Input
+                                            {...form.register(
+                                              `categories.${categoryIndex}.notes.${noteIndex}`
+                                            )}
+                                            placeholder={`Note ${noteIndex + 1}`}
+                                          />
+                                        </FormControl>
+                                        <Button
+                                          type="button"
+                                          variant="outline"
+                                          size="icon"
+                                          onClick={() => {
+                                            const currentNotes = form.getValues(
+                                              `categories.${categoryIndex}.notes`
+                                            );
+                                            form.setValue(
+                                              `categories.${categoryIndex}.notes`,
+                                              currentNotes.filter(
+                                                (_, index) =>
+                                                  index !== noteIndex
+                                              )
+                                            );
+                                          }}
+                                        >
+                                          <X className="h-4 w-4" />
+                                        </Button>
+                                      </div>
+                                    ))}
+                                </div>
+                                <FormDescription>
+                                  Additional information or notes about this
+                                  category.
+                                </FormDescription>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          {form.watch(`categories.${categoryIndex}.notes`, [])
+                            .length <= 3 && (
+                            <Button
+                              type="button"
+                              size="sm"
+                              className="mt-2 w-fit"
+                              onClick={() => {
+                                const currentNotes =
+                                  form.getValues(
+                                    `categories.${categoryIndex}.notes`
+                                  ) || [];
+                                form.setValue(
+                                  `categories.${categoryIndex}.notes`,
+                                  [...currentNotes, ""]
+                                );
+                              }}
+                            >
+                              <Plus className="mr-2 h-3 w-3" />
+                              Add Category Note
+                            </Button>
+                          )}
+                        </div>
                         <div className="space-y-4">
                           <MenuItemsFieldArray
                             form={form}
@@ -284,23 +376,56 @@ export default function MenuForm({ form }) {
           </CardHeader>
 
           <CardContent className="flex flex-col gap-6">
-            <FormField
-              control={form.control}
-              name="notes"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Notes</FormLabel>
-                  <FormControl>
-                    <Textarea placeholder="Enter optional notes" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Notes about tax, tipping, etc.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
+            <div>
+              <FormField
+                control={form.control}
+                name="notes"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Notes</FormLabel>
+                    <div className="space-y-2">
+                      {noteFields.map((field, index) => (
+                        <div
+                          key={field.id}
+                          className="flex items-center space-x-2"
+                        >
+                          <Asterisk className="h-4 w-4" />
+                          <FormControl>
+                            <Input
+                              {...form.register(`notes.${index}`)}
+                              placeholder={`Note ${index + 1}`}
+                            />
+                          </FormControl>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            onClick={() => removeNote(index)}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                    <FormDescription>
+                      Notes about tax, tipping, etc.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {noteFields.length <= 3 && (
+                <Button
+                  type="button"
+                  size="sm"
+                  className="mt-2 w-fit"
+                  onClick={() => appendNote("")}
+                >
+                  <Plus className="mr-2 h-3 w-3" />
+                  Add Note
+                </Button>
               )}
-            />
-
+            </div>
             <FormField
               control={form.control}
               name="message"
@@ -498,10 +623,12 @@ function MenuItemsFieldArray({
                       <FormLabel>Tags</FormLabel>
                       <FormControl>
                         <MultipleSelector
-                          value={field.value.map((tag: string) => ({
-                            value: tag,
-                            label: tag,
-                          }))}
+                          value={field.value.map(
+                            (tag: string) =>
+                              menuItemTags.find(
+                                (item) => item.value === tag
+                              ) || { value: tag, label: tag }
+                          )}
                           onChange={(newValue) => {
                             const tagValues = newValue.map(
                               (item) => item.value

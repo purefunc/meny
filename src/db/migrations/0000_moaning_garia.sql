@@ -15,32 +15,27 @@ CREATE TABLE IF NOT EXISTS "account" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "categories" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"name" text NOT NULL,
 	"menuId" uuid NOT NULL,
-	"description" text NOT NULL,
-	"isHidden" boolean NOT NULL,
+	"description" text,
+	"isHidden" boolean,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	"updatedBy" uuid NOT NULL,
-	"image" varchar(2048) NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "guestbook_entries" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"userId" uuid NOT NULL,
-	"message" text NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL
+	"image" varchar(2048),
+	"notes" text[] DEFAULT '{}'
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "menuItems" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"categoryId" uuid NOT NULL,
 	"name" text NOT NULL,
-	"description" text NOT NULL,
-	"price" text NOT NULL,
-	"isHidden" boolean NOT NULL,
-	"isSeasonal" boolean NOT NULL,
-	"image" varchar(2048) NOT NULL,
-	"tags" text[],
+	"description" text,
+	"price" text,
+	"posId" text DEFAULT '',
+	"isHidden" boolean,
+	"image" varchar(2048),
+	"tags" text[] DEFAULT '{}',
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	"updatedBy" uuid NOT NULL
@@ -49,12 +44,15 @@ CREATE TABLE IF NOT EXISTS "menuItems" (
 CREATE TABLE IF NOT EXISTS "menus" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"userId" uuid NOT NULL,
-	"description" text NOT NULL,
+	"description" text,
 	"name" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	"updatedBy" uuid NOT NULL,
-	"image" varchar(2048)
+	"image" varchar(2048),
+	"notes" text[] DEFAULT '{}',
+	"isPublic" boolean,
+	"message" text
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "session" (
@@ -86,12 +84,6 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "categories" ADD CONSTRAINT "categories_updatedBy_user_id_fk" FOREIGN KEY ("updatedBy") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "guestbook_entries" ADD CONSTRAINT "guestbook_entries_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
