@@ -94,10 +94,6 @@ export const menusRelations = relations(menus, ({ one, many }) => ({
 }));
 
 // Schemas
-export const InsertMenuSchema = createInsertSchema(menus).pick({
-  name: true,
-  description: true,
-});
 
 const MenuItemSchema = createSelectSchema(menuItems)
   .omit({
@@ -121,7 +117,12 @@ const CategorySchema = createSelectSchema(categories)
     id: z.string().uuid().optional(),
   });
 
-export const UpdateMenuSchema = createSelectSchema(menus)
+export const InsertMenuSchema = createInsertSchema(menus).pick({
+  name: true,
+  description: true,
+});
+
+export const MenuSchema = createSelectSchema(menus)
   .omit({
     userId: true,
     createdAt: true,

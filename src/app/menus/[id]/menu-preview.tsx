@@ -40,9 +40,9 @@ export default function MenuPreview({ menu }) {
             value={openCategories}
             className="w-full space-y-4"
           >
-            {menu.categories.map((category) => (
+            {menu.categories.map((category, index) => (
               <AccordionItem
-                key={category.id}
+                key={category.id + index}
                 value={category.id}
                 className="rounded-lg border"
               >
@@ -59,8 +59,8 @@ export default function MenuPreview({ menu }) {
                     </p>
                   )}
                   <div className="space-y-4">
-                    {category.menuItems?.map((item) => (
-                      <div key={item.id} className="space-y-2">
+                    {category.menuItems?.map((item, indx) => (
+                      <div key={item.id + indx} className="space-y-2">
                         <div className="flex items-start justify-between">
                           <div>
                             <h4 className="text-md font-semibold">
@@ -78,7 +78,7 @@ export default function MenuPreview({ menu }) {
                         </div>
                         {item.tags && item.tags.length > 0 && (
                           <div className="flex flex-wrap gap-1">
-                            {item.tags.map((tag) => (
+                            {item.tags.map((tag: string) => (
                               <Badge
                                 key={tag}
                                 variant="secondary"

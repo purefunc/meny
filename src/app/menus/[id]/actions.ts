@@ -8,22 +8,19 @@ import { z } from "zod";
 
 import options from "@/config/auth";
 import db from "@/db";
-import {
-  UpdateMenuSchema,
-  categories,
-  menuItems,
-  menus,
-} from "@/db/schema/menus";
+import { MenuSchema, categories, menuItems, menus } from "@/db/schema/menus";
 import requireAuth from "@/utils/require-auth";
 
-export async function updateMenu(data: z.infer<typeof UpdateMenuSchema>) {
+export async function updateMenu(data: z.infer<typeof MenuSchema>) {
   await requireAuth();
 
   try {
-    const parsed = UpdateMenuSchema.safeParse(data);
-    console.log("parsed", parsed);
+    console.log("Received data:", JSON.stringify(data, null, 2));
+    const parsed = MenuSchema.safeParse(data);
+    console.log("Parsed data:", JSON.stringify(parsed, null, 2));
 
     if (!parsed.success) {
+      console.error("Validation errors:", parsed.error);
       throw new Error("Invalid form data");
     }
 
@@ -32,6 +29,7 @@ export async function updateMenu(data: z.infer<typeof UpdateMenuSchema>) {
     const session = (await getServerSession(options))!;
 
     await db.transaction(async (tx) => {
+      console.log("Updating menu:", id);
       // Update menu
       await tx
         .update(menus)
@@ -66,7 +64,10 @@ export async function updateMenu(data: z.infer<typeof UpdateMenuSchema>) {
             where: eq(categories.id, inputCategoryId),
           });
 
-          if (existingCategory && hasChanged(existingCategory, categoryUpdateData)) {
+          if (
+            existingCategory &&
+            hasChanged(existingCategory, categoryUpdateData)
+          ) {
             await tx
               .update(categories)
               .set({
@@ -104,6 +105,7 @@ export async function updateMenu(data: z.infer<typeof UpdateMenuSchema>) {
 
         // Update or insert menu items
         for (const inputMenuItem of inputMenuItems) {
+          console.log("Processing menu item:", inputMenuItem);
           const { id: inputMenuItemId, ...menuItemUpdateData } = inputMenuItem;
 
           if (inputMenuItemId && existingMenuItemIds.has(inputMenuItemId)) {
@@ -112,7 +114,10 @@ export async function updateMenu(data: z.infer<typeof UpdateMenuSchema>) {
               where: eq(menuItems.id, inputMenuItemId),
             });
 
-            if (existingMenuItem && hasChanged(existingMenuItem, menuItemUpdateData)) {
+            if (
+              existingMenuItem &&
+              hasChanged(existingMenuItem, menuItemUpdateData)
+            ) {
               await tx
                 .update(menuItems)
                 .set({
@@ -180,6 +185,9 @@ export async function updateMenu(data: z.infer<typeof UpdateMenuSchema>) {
 }
 
 // Helper function to check if an object has changed
-function hasChanged(existing: Record<string, any>, updated: Record<string, any>): boolean {
-  return Object.keys(updated).some(key => existing[key] !== updated[key]);
+function hasChanged(
+  existing: Record<string, any>,
+  updated: Record<string, any>
+): boolean {
+  return Object.keys(updated).some((key) => existing[key] !== updated[key]);
 }

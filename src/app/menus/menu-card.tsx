@@ -32,14 +32,13 @@ export default function MenuCard({ menu }) {
           <div className="flex items-center gap-2">
             <Button asChild size="sm" variant="outline">
               <Link href={`/menus/${menu.id}`}>
-                <Eye className="mr-2 h-4 w-4" />
-                Preview
+                <Pencil className="mr-2 h-4 w-4" />
+                Edit
               </Link>
             </Button>
             <Button asChild size="sm">
-              <Link href={`/menus/${menu.id}`}>
-                <Pencil className="mr-2 h-4 w-4" />
-                Edit
+              <Link href={`/menu/${menu.id}`} target="_blank">
+                View
               </Link>
             </Button>
           </div>

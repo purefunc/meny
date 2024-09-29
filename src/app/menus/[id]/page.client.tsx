@@ -8,7 +8,7 @@ import * as z from "zod";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { UpdateMenuSchema } from "@/db/schema/menus";
+import { MenuSchema } from "@/db/schema/menus";
 
 import MenuForm from "../menu-form";
 import MenuMobileNav from "./menu-mobile-nav";
@@ -16,8 +16,8 @@ import MenuNav from "./menu-nav";
 import MenuPreview from "./menu-preview";
 
 export default function MenuClient({ menu }) {
-  const form = useForm<z.infer<typeof UpdateMenuSchema>>({
-    resolver: zodResolver(UpdateMenuSchema),
+  const form = useForm<z.infer<typeof MenuSchema>>({
+    resolver: zodResolver(MenuSchema),
     defaultValues: {
       id: menu.id,
       name: menu?.name || "",

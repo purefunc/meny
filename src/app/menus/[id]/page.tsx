@@ -16,7 +16,11 @@ export default async function MenuIdPage({ params }: MenuIdPageProps) {
       return operators.eq(fields.id, menuId);
     },
     with: {
-      categories: true,
+      categories: {
+        with: {
+          menuItems: true,
+        },
+      },
     },
   });
 

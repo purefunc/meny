@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Suspense } from "react";
 
 import Nav from "@/components/layout/nav";
@@ -18,6 +19,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headerList = headers();
+  const pathname = headerList.get("x-current-path");
+  const isMenuPage = pathname.startsWith("/menu/");
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -27,14 +31,20 @@ export default function RootLayout({
         />
       </head>
       <body className="h-screen w-screen">
-        <Providers>
-          <Nav>
-            <main className="mx-auto grid w-full max-w-[1440px] flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-              <Suspense>{children}</Suspense>
-            </main>
-          </Nav>
-        </Providers>
-        <Toaster />
+        {isMenuPage ? (
+          children
+        ) : (
+          <>
+            <Providers>
+              <Nav>
+                <main className="mx-auto grid w-full max-w-[1440px] flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+                  <Suspense>{children}</Suspense>
+                </main>
+              </Nav>
+            </Providers>
+            <Toaster />
+          </>
+        )}
       </body>
     </html>
   );
