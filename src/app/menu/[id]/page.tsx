@@ -25,14 +25,14 @@ export default async function MenuPage({ params }: MenuIdPageProps) {
       },
     });
 
-    if (!menu) {
+    if (!menu || !menu.isPublic) {
       notFound();
     }
 
     return <Menu menu={menu} />;
   } catch (error) {
     console.error("error", error);
-    // If there's any error (including invalid UUID), call notFound()
+    // If there's any error (including invalid ID), call notFound()
     notFound();
   }
 }

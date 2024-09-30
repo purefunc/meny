@@ -1,5 +1,5 @@
 {
-  "id": "3a45a945-c909-44c9-9ade-31441cfe4839",
+  "id": "39279880-d32a-404c-b7d5-d735581fc288",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -383,7 +383,8 @@
           "name": "isPublic",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": false
         },
         "message": {
           "name": "message",

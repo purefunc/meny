@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS "menus" (
 	"updatedBy" uuid NOT NULL,
 	"image" varchar(2048),
 	"notes" text[] DEFAULT '{}',
-	"isPublic" boolean,
+	"isPublic" boolean DEFAULT false NOT NULL,
 	"message" text
 );
 --> statement-breakpoint

@@ -1,5 +1,7 @@
-// Import menuItemTags
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 import { menuItemTags } from "@/app/menus/menu-form";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 
 export default function Menu({ menu }) {
   const defaultCategory = menu.categories[0]?.id || "";
+  const [selectedCategory, setSelectedCategory] = useState(defaultCategory);
 
   // Create a Set of all unique tags used in the menu
   const usedTags = new Set(
@@ -33,26 +36,41 @@ export default function Menu({ menu }) {
     return tag ? tag.label : tagValue;
   };
 
+  const handleCategoryChange = (categoryId: string) => {
+    setSelectedCategory(categoryId);
+    // Scroll to the selected category
+    const categoryElement = document.getElementById(categoryId);
+    if (categoryElement) {
+      categoryElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="flex min-h-full flex-col">
       <header className="sticky top-0 z-10 bg-background p-4 shadow-md">
         <div className="@container mx-auto flex max-w-screen-lg flex-col gap-2">
           <h1 className="text-2xl font-bold text-foreground">{menu.name}</h1>
-          <Select defaultValue={defaultCategory} className="@md:max-w-sm">
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select a category" />
-            </SelectTrigger>
-            <SelectContent>
-              {menu.categories.map((category) => (
-                <SelectItem
-                  key={`${category.id}-${category.name}`}
-                  value={category.id}
-                >
-                  {category.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {menu.categories.length > 1 && (
+            <Select
+              value={selectedCategory}
+              onValueChange={handleCategoryChange}
+              className="@md:max-w-sm"
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent>
+                {menu.categories.map((category) => (
+                  <SelectItem
+                    key={`${category.id}-${category.name}`}
+                    value={category.id}
+                  >
+                    {category.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </div>
       </header>
 

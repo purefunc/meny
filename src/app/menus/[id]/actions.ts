@@ -2,13 +2,19 @@
 
 import { revalidatePath } from "next/cache";
 
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq, inArray, not } from "drizzle-orm";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 
 import options from "@/config/auth";
 import db from "@/db";
-import { MenuSchema, categories, menuItems, menus } from "@/db/schema/menus";
+import {
+  MenuSchema,
+  TogglePublishMenuSchema,
+  categories,
+  menuItems,
+  menus,
+} from "@/db/schema/menus";
 import requireAuth from "@/utils/require-auth";
 
 export async function updateMenu(data: z.infer<typeof MenuSchema>) {
@@ -187,4 +193,40 @@ function hasChanged(
   updated: Record<string, any>
 ): boolean {
   return Object.keys(updated).some((key) => existing[key] !== updated[key]);
+}
+
+export async function toggleMenuPublicStatus(
+  data: z.infer<typeof TogglePublishMenuSchema>
+) {
+  await requireAuth();
+
+  const parsed = TogglePublishMenuSchema.safeParse(data);
+
+  if (!parsed.success) {
+    console.error("Validation errors:", parsed.error);
+    return { success: false, message: "Could not update menu" };
+  }
+  const { id } = data;
+
+  const session = (await getServerSession(options))!;
+
+  const [updatedMenu] = await db
+    .update(menus)
+    .set({
+      isPublic: not(menus.isPublic),
+      updatedAt: new Date(),
+      updatedBy: session.user.id,
+    })
+    .where(eq(menus.id, id))
+    .returning({ isPublic: menus.isPublic });
+
+  revalidatePath(`/menus/${id}`);
+
+  const result = {
+    success: true,
+    isPublic: updatedMenu.isPublic,
+    message: `Menu ${updatedMenu.isPublic ? "published" : "unpublished"} successfully`,
+  };
+
+  return result;
 }

@@ -32,7 +32,9 @@ export async function createMenu(prevState: unknown, formData: FormData) {
       updatedBy: session.user.id,
       name: submission.value.name,
     })
-    .returning({ id: menus.id });
+    .returning();
+
+  console.log("Inserted menu ID:", insertedMenu.id);
 
   revalidatePath(`/menus`);
   redirect(`/menus/${insertedMenu.id}`);

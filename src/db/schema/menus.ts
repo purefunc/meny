@@ -64,7 +64,7 @@ export const menus = pgTable("menus", {
     .references(() => users.id, { onDelete: "cascade" }),
   image: varchar("image", { length: 2048 }),
   notes: text("notes").array().default([]),
-  isPublic: boolean("isPublic"),
+  isPublic: boolean("isPublic").notNull().default(false),
   message: text("message"),
 });
 
@@ -142,5 +142,4 @@ export const MenuSchema = createSelectSchema(menus)
 
 export const TogglePublishMenuSchema = createSelectSchema(menus).pick({
   id: true,
-  isPublic: true,
 });

@@ -16,6 +16,7 @@ import MenuForm from "../menu-form";
 import MenuMobileNav from "./menu-mobile-nav";
 import MenuNav from "./menu-nav";
 import MenuPreview from "./menu-preview";
+import PublishButton from "./publish-button";
 
 export default function MenuClient({ menu }) {
   const form = useForm<z.infer<typeof MenuSchema>>({
@@ -109,7 +110,7 @@ export default function MenuClient({ menu }) {
               Preview
             </Link>
           </Button>
-          <Button>{menu.isPublic ? "Unpublish Menu" : "Publish Menu"}</Button>
+          <PublishButton menu={menu} />
         </div>
       </div>
       <div className="grid w-full flex-grow grid-cols-1 gap-4 overflow-hidden md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr_375px]">
