@@ -104,6 +104,7 @@ const MenuItemSchema = createSelectSchema(menuItems)
   })
   .extend({
     id: z.string().uuid().optional(),
+    isHidden: z.boolean().optional(),
   });
 
 const CategorySchema = createSelectSchema(categories)
@@ -115,6 +116,7 @@ const CategorySchema = createSelectSchema(categories)
   })
   .extend({
     id: z.string().uuid().optional(),
+    isHidden: z.boolean().optional(),
   });
 
 export const InsertMenuSchema = createInsertSchema(menus).pick({

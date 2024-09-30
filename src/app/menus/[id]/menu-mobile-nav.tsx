@@ -76,7 +76,7 @@ export default function MenuMobileNav({ categories }) {
             </DropdownMenuItem>
           )}
 
-          {filteredCategories.map((category) => (
+          {filteredCategories.map((category, index) => (
             <div key={category.id} className="flex w-full flex-col">
               <DropdownMenuItem asChild>
                 <Link
@@ -84,17 +84,17 @@ export default function MenuMobileNav({ categories }) {
                   className="px-2 py-1.5 font-semibold hover:bg-accent"
                   onClick={() => handleOpenChange(false)}
                 >
-                  {category.name}
+                  {category.name || `Category ${index + 1}`}
                 </Link>
               </DropdownMenuItem>
-              {category?.menuItems?.map((item) => (
+              {category?.menuItems?.map((item, index) => (
                 <DropdownMenuItem key={item.id} asChild>
                   <Link
                     href={`#${item.id}`}
                     className="px-4 py-1.5 text-sm hover:bg-accent"
                     onClick={() => handleOpenChange(false)}
                   >
-                    {item.name}
+                    {item.name || `Item ${index + 1}`}
                   </Link>
                 </DropdownMenuItem>
               ))}

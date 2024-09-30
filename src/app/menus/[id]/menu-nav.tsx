@@ -18,26 +18,26 @@ export default function MenuNav({ categories }) {
       </Link>
       <div className="ml-2">
         <Accordion type="multiple" className="w-full">
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <AccordionItem key={category.id} value={category.id}>
               <div className="flex items-center">
                 <Link
                   href={`#${category.id}`}
                   className="flex-grow py-2 text-sm hover:underline"
                 >
-                  {category.name}
+                  {category.name || `Category ${index + 1}`}
                 </Link>
                 <AccordionTrigger className="flex-shrink-0 p-2" />
               </div>
               <AccordionContent>
                 <div className="grid gap-1 pl-4">
-                  {category?.menuItems?.map((item) => (
+                  {category?.menuItems?.map((item, index) => (
                     <Link
                       key={item.id}
                       href={`#${item.id}`}
                       className="py-1 text-sm"
                     >
-                      {item.name}
+                      {item.name || `Item ${index + 1}`}
                     </Link>
                   ))}
                 </div>

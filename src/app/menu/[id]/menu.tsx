@@ -4,14 +4,13 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { menuItemTags } from "@/app/menus/menu-form";
-import { Badge } from "@/components/ui/badge";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
 export default function Menu({ menu }) {
@@ -50,81 +49,68 @@ export default function Menu({ menu }) {
       <header className="sticky top-0 z-10 bg-background p-4 shadow-md">
         <div className="@container mx-auto flex max-w-screen-lg flex-col gap-2">
           <h1 className="text-2xl font-bold text-foreground">{menu.name}</h1>
-          {menu.categories.length > 1 && (
-            <Select
-              value={selectedCategory}
-              onValueChange={handleCategoryChange}
-              className="@md:max-w-sm"
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a category" />
-              </SelectTrigger>
-              <SelectContent>
-                {menu.categories.map((category) => (
-                  <SelectItem
-                    key={`${category.id}-${category.name}`}
-                    value={category.id}
-                  >
-                    {category.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
         </div>
       </header>
 
       <main className="flex-grow p-4">
         <div className="mx-auto max-w-screen-lg">
-          {menu.categories
-            .filter(({ isHidden }) => !isHidden)
-            .map((category) => (
-              <div key={category.id} className="mb-8 flex flex-col gap-6">
-                <div>
-                  <h2 className="mb-1 text-2xl font-bold">{category.name}</h2>
-                  {category.description && (
-                    <p className="mb-1 text-gray-600">{category.description}</p>
-                  )}
-                  {category.notes
-                    .filter((note) => !!note)
-                    .map((note, index) => (
-                      <p
-                        className="text-xs italic text-muted-foreground"
-                        key={`cat-${index}`}
-                      >
-                        * {note}
-                      </p>
-                    ))}
-                </div>
-
-                {category.menuItems
-                  .filter(({ isHidden }) => !isHidden)
-                  .map((item) => (
-                    <div key={item.id} className="mb-4">
-                      <div className="flex justify-between">
-                        <h3 className="font-semibold">{item.name}</h3>
-                        <span>{item.price && `$${item.price}`}</span>
-                      </div>
-                      <p className="text-sm text-gray-600">
-                        {item.description}
-                      </p>
-                      {item.tags && item.tags.length > 0 && (
-                        <div className="mt-2 flex flex-wrap gap-1">
-                          {item.tags.map((tag: string) => (
-                            <Badge
-                              key={tag}
-                              variant="secondary"
-                              className="text-xs"
-                            >
-                              {getTagLabel(tag)}
-                            </Badge>
-                          ))}
-                        </div>
+          <Accordion type="multiple" className="w-full">
+            {menu.categories
+              .filter(({ isHidden }) => !isHidden)
+              .map((category) => (
+                <AccordionItem key={category.id} value={category.id}>
+                  <AccordionTrigger className="text-left">
+                    <div>
+                      <h2 className="text-2xl font-bold">{category.name}</h2>
+                      {category.description && (
+                        <p className="text-gray-600">{category.description}</p>
                       )}
                     </div>
-                  ))}
-              </div>
-            ))}
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="flex flex-col gap-4">
+                      {category.notes
+                        .filter((note) => !!note)
+                        .map((note, index) => (
+                          <p
+                            className="text-xs italic text-muted-foreground"
+                            key={`cat-${index}`}
+                          >
+                            * {note}
+                          </p>
+                        ))}
+
+                      {category.menuItems
+                        .filter(({ isHidden }) => !isHidden)
+                        .map((item) => (
+                          <div key={item.id} className="mb-4">
+                            <div className="flex justify-between">
+                              <h3 className="text-lg font-semibold">
+                                {item.name}
+                              </h3>
+                              <span>{item.price && `$${item.price}`}</span>
+                            </div>
+                            <p className="text-gray-600">{item.description}</p>
+                            {item.tags && item.tags.length > 0 && (
+                              <div className="mt-2 flex flex-wrap gap-1">
+                                {item.tags.map((tag: string) => (
+                                  <Badge
+                                    key={tag}
+                                    variant="secondary"
+                                    className="text-xs"
+                                  >
+                                    {getTagLabel(tag)}
+                                  </Badge>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+          </Accordion>
         </div>
         {menu.notes
           .filter((note) => !!note)
@@ -136,21 +122,22 @@ export default function Menu({ menu }) {
               * {note}
             </p>
           ))}
-
-        {filteredMenuItemTags.length > 0 && (
-          <ul className="mt-6 flex flex-wrap justify-center gap-3">
-            {filteredMenuItemTags.map((tag) => (
-              <li key={tag.value} className="text-xs">
-                {tag.label} {tag.key}
-              </li>
-            ))}
-          </ul>
-        )}
       </main>
 
       <footer className="mt-4">
         <div className="mx-auto max-w-screen-lg">
-          <div className="p-4">
+          <div className="flex flex-col gap-3 p-4">
+            {filteredMenuItemTags.length > 0 && (
+              <ul className="flex flex-wrap justify-center gap-3">
+                {filteredMenuItemTags
+                  .filter((tag) => !!tag?.key)
+                  .map((tag) => (
+                    <li key={tag.value} className="text-xs">
+                      <strong> {tag.label}</strong> {tag.key}
+                    </li>
+                  ))}
+              </ul>
+            )}
             <p className="text-center text-xs text-muted-foreground">
               {menu.message}
             </p>

@@ -175,8 +175,13 @@ export default function MenuForm({ form }) {
           <CardContent>
             {categoryFields.map((categoryField, categoryIndex) => (
               <div key={categoryField.id} className="flex flex-col gap-6">
-                <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="category">
+                <Accordion
+                  type="single"
+                  collapsible
+                  className="w-full"
+                  defaultValue={`category-${categoryIndex}`}
+                >
+                  <AccordionItem value={`category-${categoryIndex}`}>
                     <AccordionTrigger className="px-4 py-2 hover:no-underline">
                       <div className="flex items-center gap-2">
                         {form.watch(`categories.${categoryIndex}.name`) ||
@@ -498,10 +503,14 @@ function MenuItemsFieldArray({
           Add Item
         </Button>
       </div>
-      <Accordion type="multiple" className="space-y-4">
+      <Accordion
+        type="multiple"
+        className="space-y-4"
+        defaultValue={`item-${categoryIndex}-${0}`}
+      >
         {fields.map((field, itemIndex) => (
           <AccordionItem
-            key={field.id}
+            key={`item-${categoryIndex}-${itemIndex}`}
             value={`item-${categoryIndex}-${itemIndex}`}
           >
             <AccordionTrigger className="text-left hover:no-underline">
@@ -603,20 +612,6 @@ function MenuItemsFieldArray({
 
                 <FormField
                   control={form.control}
-                  name={`categories.${categoryIndex}.menuItems.${itemIndex}.image`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Image URL</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter image URL" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
                   name={`categories.${categoryIndex}.menuItems.${itemIndex}.tags`}
                   render={({ field }) => (
                     <FormItem>
@@ -647,6 +642,20 @@ function MenuItemsFieldArray({
                       <FormDescription>
                         Select tags that apply to this menu item.
                       </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name={`categories.${categoryIndex}.menuItems.${itemIndex}.image`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Image URL</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter image URL" {...field} />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
