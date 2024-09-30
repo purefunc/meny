@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { MenuSchema } from "@/db/schema/menus";
 
-import MenuForm from "../menu-form";
+import MenuForm from "./menu-form";
 import MenuMobileNav from "./menu-mobile-nav";
 import MenuNav from "./menu-nav";
 import MenuPreview from "./menu-preview";

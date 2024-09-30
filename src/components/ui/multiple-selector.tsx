@@ -556,7 +556,7 @@ const MultipleSelector = React.forwardRef<
                   "hidden"
               )}
             >
-              <X />
+              <X className="h-4 w-4" />
             </button>
           </div>
         </div>

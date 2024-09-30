@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 
-import { menuItemTags } from "@/app/menus/menu-form";
+import { menuItemTags } from "@/app/menus/[id]/menu-item-fields";
 import {
   Accordion,
   AccordionContent,
@@ -14,9 +13,6 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
 export default function Menu({ menu }) {
-  const defaultCategory = menu.categories[0]?.id || "";
-  const [selectedCategory, setSelectedCategory] = useState(defaultCategory);
-
   // Create a Set of all unique tags used in the menu
   const usedTags = new Set(
     menu.categories
@@ -33,15 +29,6 @@ export default function Menu({ menu }) {
   const getTagLabel = (tagValue: string) => {
     const tag = filteredMenuItemTags.find((t) => t.value === tagValue);
     return tag ? tag.label : tagValue;
-  };
-
-  const handleCategoryChange = (categoryId: string) => {
-    setSelectedCategory(categoryId);
-    // Scroll to the selected category
-    const categoryElement = document.getElementById(categoryId);
-    if (categoryElement) {
-      categoryElement.scrollIntoView({ behavior: "smooth" });
-    }
   };
 
   return (
