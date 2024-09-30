@@ -1,6 +1,8 @@
 "use client";
 
-import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
+// import { toast } from "sonner";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -15,17 +17,21 @@ import { DetailsFields } from "./details-fields";
 import { FooterFields } from "./footer-fields";
 
 export default function MenuForm({ form }) {
+  const router = useRouter();
+
   const onSubmit = async (values: z.infer<typeof MenuSchema>) => {
     console.log("Submitting values:", JSON.stringify(values, null, 2));
 
     const result = await updateMenu(values);
     console.log("result", result);
 
-    if (result?.success) {
-      toast.success(result?.message || "Menu updated successfully");
-    } else {
-      toast.error(result?.message || "Failed to update menu");
-    }
+    router.refresh();
+
+    // if (result?.success) {
+    //   toast.success(result?.message || "Menu updated successfully");
+    // } else {
+    //   toast.error(result?.message || "Failed to update menu");
+    // }
   };
 
   console.log("Form errors:", form.formState.errors);

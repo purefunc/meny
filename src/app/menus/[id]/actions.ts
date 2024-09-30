@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 
-import { and, eq, inArray, not } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 
@@ -206,19 +206,19 @@ export async function toggleMenuPublicStatus(
     console.error("Validation errors:", parsed.error);
     return { success: false, message: "Could not update menu" };
   }
-  const { id } = data;
+  const { id, isPublic } = data;
 
   const session = (await getServerSession(options))!;
 
   const [updatedMenu] = await db
     .update(menus)
     .set({
-      isPublic: not(menus.isPublic),
+      isPublic: !isPublic,
       updatedAt: new Date(),
       updatedBy: session.user.id,
     })
     .where(eq(menus.id, id))
-    .returning({ isPublic: menus.isPublic });
+    .returning({ isPublic: menus.isPublic, id: menus.id });
 
   revalidatePath(`/menus/${id}`);
 

@@ -144,4 +144,5 @@ export const MenuSchema = createSelectSchema(menus)
 
 export const TogglePublishMenuSchema = createSelectSchema(menus).pick({
   id: true,
+  isPublic: true,
 });
