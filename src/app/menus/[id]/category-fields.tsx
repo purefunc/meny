@@ -28,7 +28,11 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { MenuItemsFields } from "./menu-item-fields";
 
-export function CategoryFields({ form }) {
+export function CategoryFields({
+  form,
+  toggleCategoryAccordion,
+  openCategoryAccordions,
+}) {
   const {
     fields: categoryFields,
     append: appendCategory,
@@ -46,15 +50,19 @@ export function CategoryFields({ form }) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {categoryFields.map((categoryField, categoryIndex) => (
-          <div key={categoryField.id} className="flex flex-col gap-6">
-            <Accordion
-              type="single"
-              collapsible
-              className="w-full"
-              defaultValue={`${categoryField.id}-${categoryIndex}`}
+        <Accordion
+          type="multiple"
+          value={openCategoryAccordions}
+          onValueChange={toggleCategoryAccordion}
+          className="w-full"
+        >
+          {categoryFields.map((categoryField, categoryIndex) => (
+            <div
+              key={`category-${categoryField.id}-${categoryIndex}`}
+              className="flex flex-col gap-6"
+              id={`category-${categoryIndex}`}
             >
-              <AccordionItem value={`${categoryField.id}-${categoryIndex}`}>
+              <AccordionItem value={`category-${categoryIndex}`}>
                 <AccordionTrigger className="px-4 py-2 hover:no-underline">
                   <div className="flex items-center gap-2">
                     <h5 className="text-2xl font-medium">
@@ -234,9 +242,9 @@ export function CategoryFields({ form }) {
                   </div>
                 </AccordionContent>
               </AccordionItem>
-            </Accordion>
-          </div>
-        ))}
+            </div>
+          ))}
+        </Accordion>
         <Button
           type="button"
           className="mt-4"

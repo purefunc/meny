@@ -90,22 +90,25 @@ export default function MenuMobileNav({ categories }) {
           )}
 
           {filteredCategories.map((category, index) => (
-            <div key={category.id + index} className="flex w-full flex-col">
+            <div
+              key={`category-${category.id}-${index}`}
+              className="flex w-full flex-col"
+            >
               <DropdownMenuItem asChild>
                 <Link
-                  href={`#${category.id}`}
+                  href={`#category-${category.id}-${index}`}
                   className="px-2 py-1.5 font-semibold hover:bg-accent"
-                  onClick={(e) => handleLinkClick(e, category.id)}
+                  onClick={(e) => handleLinkClick(e, `category-${index}`)}
                 >
                   {category.name || `Category ${index + 1}`}
                 </Link>
               </DropdownMenuItem>
               {category?.menuItems?.map((item, inx) => (
-                <DropdownMenuItem key={item.id + inx} asChild>
+                <DropdownMenuItem key={`item-${inx}`} asChild>
                   <Link
-                    href={`#${item.id}`}
+                    href={`#item-${index}-${inx}`}
                     className="px-4 py-1.5 text-sm hover:bg-accent"
-                    onClick={(e) => handleLinkClick(e, item.id)}
+                    onClick={(e) => handleLinkClick(e, `item-${index}-${inx}`)}
                   >
                     {item.name || `Item ${inx + 1}`}
                   </Link>
@@ -113,6 +116,15 @@ export default function MenuMobileNav({ categories }) {
               ))}
             </div>
           ))}
+          <DropdownMenuItem asChild>
+            <Link
+              href="#footer"
+              className="px-2 py-1.5 font-semibold hover:bg-accent"
+              onClick={(e) => handleLinkClick(e, "footer")}
+            >
+              Menu Footer
+            </Link>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

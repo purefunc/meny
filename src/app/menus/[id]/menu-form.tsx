@@ -16,7 +16,11 @@ import { CategoryFields } from "./category-fields";
 import { DetailsFields } from "./details-fields";
 import { FooterFields } from "./footer-fields";
 
-export default function MenuForm({ form }) {
+export default function MenuForm({
+  form,
+  openCategoryAccordions,
+  toggleCategoryAccordion,
+}) {
   const router = useRouter();
 
   const onSubmit = async (values: z.infer<typeof MenuSchema>) => {
@@ -46,7 +50,11 @@ export default function MenuForm({ form }) {
         >
           <DetailsFields form={form} />
           <Separator />
-          <CategoryFields form={form} />
+          <CategoryFields
+            form={form}
+            toggleCategoryAccordion={toggleCategoryAccordion}
+            openCategoryAccordions={openCategoryAccordions}
+          />
           <Separator />
           <FooterFields form={form} />
         </form>

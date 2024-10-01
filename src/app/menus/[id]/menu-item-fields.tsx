@@ -51,15 +51,12 @@ export function MenuItemsFields({
           These items will show within the category.
         </p>
       </div>
-      <Accordion
-        type="multiple"
-        className="space-y-4"
-        defaultValue={`item-${categoryIndex}-${0}`}
-      >
+      <Accordion type="multiple" className="space-y-4">
         {fields.map((field, itemIndex) => (
           <AccordionItem
-            key={`item-${categoryIndex}-${itemIndex}`}
-            value={`item-${categoryIndex}-${itemIndex}`}
+            key={`item-${field.id}-${itemIndex}`}
+            value={`item-${field.id}-${itemIndex}`}
+            id={`item-${categoryIndex}-${itemIndex}`}
           >
             <AccordionTrigger className="text-left hover:no-underline">
               <div className="flex items-center gap-2">

@@ -94,6 +94,15 @@ export default function MenuClient({ menu }) {
 
   const [showPreviewDialog, setShowPreviewDialog] = useState(false);
 
+  const [openCategoryAccordions, setOpenCategoryAccordions] = useState<
+    string[]
+  >([]);
+
+  const toggleCategoryAccordion = (categoryIds: string[]) => {
+    console.log("categoryIds", categoryIds);
+    setOpenCategoryAccordions(categoryIds);
+  };
+
   return (
     <div className="flex h-[calc(100vh_-_theme(spacing.16))] flex-col">
       <div className="flex flex-wrap items-center justify-between gap-2 pb-6">
@@ -154,12 +163,20 @@ export default function MenuClient({ menu }) {
       <div className="grid w-full flex-grow grid-cols-1 overflow-hidden md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr_375px]">
         <div className="flex flex-col">
           <MenuMobileNav categories={formData.categories} />
-          <MenuNav categories={formData.categories} />
+          <MenuNav
+            categories={formData.categories}
+            toggleCategoryAccordion={toggleCategoryAccordion}
+            openCategoryAccordions={openCategoryAccordions}
+          />
         </div>
 
         <div className="flex flex-col overflow-y-auto">
           {/* <Card className="flex h-full flex-col"> */}
-          <MenuForm form={form} />
+          <MenuForm
+            form={form}
+            toggleCategoryAccordion={toggleCategoryAccordion}
+            openCategoryAccordions={openCategoryAccordions}
+          />
           {/* </Card> */}
         </div>
         <div className="hidden lg:flex lg:flex-col">
