@@ -51,7 +51,7 @@ export default function MenuForm({ form }) {
           <FooterFields form={form} />
         </form>
 
-        <CardFooter className="mt-auto rounded-b-lg border-t bg-card p-6">
+        <CardFooter className="mt-auto rounded-b-lg bg-card py-4">
           <Button
             type="submit"
             form="menu-form"

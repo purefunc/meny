@@ -51,7 +51,9 @@ export default function PublishButton({ menu }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button>{menu.isPublic ? "Unpublish" : "Publish"}</Button>
+        <Button variant={menu.isPublic ? "secondary" : "default"}>
+          {menu.isPublic ? "Un-Publish" : "Publish"}
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -60,7 +62,7 @@ export default function PublishButton({ menu }) {
           </AlertDialogTitle>
           <AlertDialogDescription>
             {menu.isPublic
-              ? "This will make your menu private and inaccessible to the public."
+              ? "Un-publishing the menu will make it private and inaccessible to the public."
               : "This will make your menu public and accessible to everyone."}
           </AlertDialogDescription>
         </AlertDialogHeader>

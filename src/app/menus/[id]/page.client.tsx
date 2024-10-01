@@ -96,16 +96,18 @@ export default function MenuClient({ menu }) {
 
   return (
     <div className="flex h-[calc(100vh_-_theme(spacing.16))] flex-col">
-      <div className="flex items-center justify-between pb-6">
+      <div className="flex flex-wrap items-center justify-between gap-2 pb-6">
         <div className="flex items-center gap-2">
           <h1 className="text-3xl font-semibold">{menu.name || "Edit Menu"}</h1>
           <Badge variant={menu.isPublic ? "default" : "outline"}>
             {menu.isPublic ? (
-              <Eye className="mr-2 h-4 w-4" />
+              <Eye className="h-4 w-4 sm:mr-2" />
             ) : (
-              <EyeOff className="mr-2 h-4 w-4" />
+              <EyeOff className="h-4 w-4 sm:mr-2" />
             )}
-            {menu.isPublic ? "Public" : "Private"}
+            <span className="hidden sm:inline">
+              {menu.isPublic ? "Public" : "Private"}
+            </span>
           </Badge>
         </div>
         <div className="flex items-center gap-2">
@@ -149,7 +151,7 @@ export default function MenuClient({ menu }) {
           <PublishButton menu={menu} />
         </div>
       </div>
-      <div className="grid w-full flex-grow grid-cols-1 gap-4 overflow-hidden md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr_375px]">
+      <div className="grid w-full flex-grow grid-cols-1 overflow-hidden md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr_375px]">
         <div className="flex flex-col">
           <MenuMobileNav categories={formData.categories} />
           <MenuNav categories={formData.categories} />

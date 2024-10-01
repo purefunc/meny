@@ -40,6 +40,18 @@ export default function MenuMobileNav({ categories }) {
     }
   }, []);
 
+  const handleLinkClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+      e.preventDefault();
+      handleOpenChange(false);
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: "smooth" });
+      }
+    },
+    [handleOpenChange]
+  );
+
   return (
     <div className="w-full md:hidden">
       <DropdownMenu open={isOpen} onOpenChange={handleOpenChange}>
@@ -70,6 +82,7 @@ export default function MenuMobileNav({ categories }) {
               <Link
                 href="#details"
                 className="px-2 py-1.5 font-semibold hover:bg-accent"
+                onClick={(e) => handleLinkClick(e, "details")}
               >
                 Details
               </Link>
@@ -82,7 +95,7 @@ export default function MenuMobileNav({ categories }) {
                 <Link
                   href={`#${category.id}`}
                   className="px-2 py-1.5 font-semibold hover:bg-accent"
-                  onClick={() => handleOpenChange(false)}
+                  onClick={(e) => handleLinkClick(e, category.id)}
                 >
                   {category.name || `Category ${index + 1}`}
                 </Link>
@@ -92,7 +105,7 @@ export default function MenuMobileNav({ categories }) {
                   <Link
                     href={`#${item.id}`}
                     className="px-4 py-1.5 text-sm hover:bg-accent"
-                    onClick={() => handleOpenChange(false)}
+                    onClick={(e) => handleLinkClick(e, item.id)}
                   >
                     {item.name || `Item ${inx + 1}`}
                   </Link>
