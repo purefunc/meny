@@ -3,22 +3,23 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { BookOpenText, Home, Package2, Settings } from "lucide-react";
+import { Home, Package2, Settings } from "lucide-react";
 
 import { APP_NAME } from "@/app/constants";
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export const routes = [
+  // {
+  //   label: "Home",
+  //   href: "/",
+  //   icon: <Home className="h-5 w-5" />,
+  // },
   {
-    label: "Home",
-    href: "/",
-    icon: <Home className="h-5 w-5" />,
-  },
-  {
-    label: "Menu",
+    label: "Menus",
     href: "/menus",
-    icon: <BookOpenText className="h-5 w-5" />,
+    // icon: <BookOpenText className="h-5 w-5" />,
+    icon: <Home className="h-5 w-5" />,
   },
 ];
 
