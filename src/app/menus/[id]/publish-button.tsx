@@ -48,12 +48,10 @@ export default function PublishButton({ menu }) {
     // }
   };
 
-  console.log("PUB ERR", form.formState.errors);
-
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button>{menu.isPublic ? "Unpublish Menu" : "Publish Menu"}</Button>
+        <Button>{menu.isPublic ? "Unpublish" : "Publish"}</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

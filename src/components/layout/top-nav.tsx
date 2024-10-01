@@ -26,6 +26,7 @@ import MobileNav from "./mobile-nav";
 
 export default function TopNav() {
   const { data } = useSession();
+  console.log("data", data);
   const { setTheme } = useTheme();
 
   return (

@@ -197,7 +197,7 @@ export function MenuItemsFields({
                   )}
                 />
 
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name={`categories.${categoryIndex}.menuItems.${itemIndex}.image`}
                   render={({ field }) => (
@@ -209,7 +209,7 @@ export function MenuItemsFields({
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
 
                 <FormField
                   control={form.control}

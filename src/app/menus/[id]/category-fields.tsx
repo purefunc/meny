@@ -52,9 +52,9 @@ export function CategoryFields({ form }) {
               type="single"
               collapsible
               className="w-full"
-              defaultValue={`category-${categoryIndex}`}
+              defaultValue={`${categoryField.id}-${categoryIndex}`}
             >
-              <AccordionItem value={`category-${categoryIndex}`}>
+              <AccordionItem value={`${categoryField.id}-${categoryIndex}`}>
                 <AccordionTrigger className="px-4 py-2 hover:no-underline">
                   <div className="flex items-center gap-2">
                     <h5 className="text-2xl font-medium">
@@ -134,7 +134,7 @@ export function CategoryFields({ form }) {
                       )}
                     />
 
-                    <FormField
+                    {/* <FormField
                       control={form.control}
                       name={`categories.${categoryIndex}.image`}
                       render={({ field }) => (
@@ -146,7 +146,7 @@ export function CategoryFields({ form }) {
                           <FormMessage />
                         </FormItem>
                       )}
-                    />
+                    /> */}
 
                     <div>
                       <FormField

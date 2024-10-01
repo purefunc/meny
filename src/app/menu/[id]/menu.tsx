@@ -35,7 +35,9 @@ export default function Menu({ menu }) {
     <div className="flex min-h-full flex-col">
       <header className="sticky top-0 z-10 bg-background p-4 shadow-md">
         <div className="@container mx-auto flex max-w-screen-lg flex-col gap-2">
-          <h1 className="text-2xl font-bold text-foreground">{menu.name}</h1>
+          <h1 className="text-center text-xl font-bold text-foreground">
+            {menu.name}
+          </h1>
         </div>
       </header>
 
@@ -44,9 +46,12 @@ export default function Menu({ menu }) {
           <Accordion type="multiple" className="w-full">
             {menu.categories
               .filter(({ isHidden }) => !isHidden)
-              .map((category) => (
-                <AccordionItem key={category.id} value={category.id}>
-                  <AccordionTrigger className="text-left">
+              .map((category, index) => (
+                <AccordionItem
+                  key={category.id + index}
+                  value={category.id + index}
+                >
+                  <AccordionTrigger className="text-left hover:no-underline">
                     <div>
                       <h2 className="text-2xl font-bold">{category.name}</h2>
                       {category.description && (
@@ -58,10 +63,10 @@ export default function Menu({ menu }) {
                     <div className="flex flex-col gap-4">
                       {category.notes
                         .filter((note) => !!note)
-                        .map((note, index) => (
+                        .map((note, indx) => (
                           <p
                             className="text-xs italic text-muted-foreground"
-                            key={`cat-${index}`}
+                            key={`cat-${indx}`}
                           >
                             * {note}
                           </p>
@@ -69,8 +74,8 @@ export default function Menu({ menu }) {
 
                       {category.menuItems
                         .filter(({ isHidden }) => !isHidden)
-                        .map((item) => (
-                          <div key={item.id} className="mb-4">
+                        .map((item, indx) => (
+                          <div key={item.indx} className="mb-4">
                             <div className="flex justify-between">
                               <h3 className="text-lg font-semibold">
                                 {item.name}
@@ -101,10 +106,10 @@ export default function Menu({ menu }) {
         </div>
         {menu.notes
           .filter((note) => !!note)
-          .map((note, index) => (
+          .map((note, indx) => (
             <p
               className="mt-2 text-xs italic text-muted-foreground"
-              key={`menu-${index}`}
+              key={`menu-${indx}`}
             >
               * {note}
             </p>
