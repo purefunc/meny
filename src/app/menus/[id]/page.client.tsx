@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
@@ -9,8 +10,10 @@ import * as z from "zod";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+// import { Card } from "@/components/ui/card";
 import { MenuSchema } from "@/db/schema/menus";
+import { cn } from "@/lib/utils";
 
 import MenuForm from "./menu-form";
 import MenuMobileNav from "./menu-mobile-nav";
@@ -89,6 +92,8 @@ export default function MenuClient({ menu }) {
 
   const formData = useWatch({ control: form.control });
 
+  const [showPreviewDialog, setShowPreviewDialog] = useState(false);
+
   return (
     <div className="flex h-[calc(100vh_-_theme(spacing.16))] flex-col">
       <div className="flex items-center justify-between pb-6">
@@ -104,29 +109,58 @@ export default function MenuClient({ menu }) {
           </Badge>
         </div>
         <div className="flex items-center gap-2">
-          <Button asChild variant="outline">
-            <Link href={`/menu/${menu.id}`} target="_blank">
-              <Eye className="mr-2 h-4 w-4" />
-              Preview
-            </Link>
-          </Button>
+          {menu.isPublic && (
+            <Button asChild variant="outline">
+              <Link href={`/menu/${menu.id}`} target="_blank">
+                View Menu
+              </Link>
+            </Button>
+          )}
+          <div className="lg:hidden">
+            <Dialog
+              open={showPreviewDialog}
+              onOpenChange={setShowPreviewDialog}
+            >
+              <DialogTrigger asChild>
+                <Button variant="outline">
+                  <Eye className="h-4 w-4 md:mr-2" />
+                  <span className="hidden md:inline">Preview</span>
+                </Button>
+              </DialogTrigger>
+              <DialogContent
+                className={cn(
+                  "border-none p-0",
+                  "h-screen max-h-screen w-screen sm:h-auto sm:w-auto sm:max-w-[425px]",
+                  "bg-transparent sm:bg-white",
+                  "[&>button]:rounded-full [&>button]:bg-red-500 [&>button]:text-white",
+                  "[&>button]:transition-colors [&>button]:hover:bg-red-600",
+                  "[&>button_svg]:h-6 [&>button_svg]:w-6",
+                  "[&>button]:absolute [&>button]:right-1 [&>button]:top-1 sm:[&>button]:right-2 sm:[&>button]:top-2",
+                  "[&>button]:z-50 [&>button]:opacity-100",
+                  "[&>button]:p-1 sm:[&>button]:p-2"
+                )}
+              >
+                <div className="flex h-full items-center justify-center sm:block sm:h-auto">
+                  <MenuPreview menu={formData} />
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
           <PublishButton menu={menu} />
         </div>
       </div>
       <div className="grid w-full flex-grow grid-cols-1 gap-4 overflow-hidden md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr_375px]">
         <div className="flex flex-col">
           <MenuMobileNav categories={formData.categories} />
-          <div className="hidden md:block">
-            <MenuNav categories={formData.categories} />
-          </div>
+          <MenuNav categories={formData.categories} />
         </div>
 
-        <div className="flex flex-col overflow-hidden">
-          <Card className="flex h-full flex-col">
-            <MenuForm form={form} />
-          </Card>
+        <div className="flex flex-col overflow-y-auto">
+          {/* <Card className="flex h-full flex-col"> */}
+          <MenuForm form={form} />
+          {/* </Card> */}
         </div>
-        <div className="flex flex-grow flex-col overflow-hidden">
+        <div className="hidden lg:flex lg:flex-col">
           <MenuPreview menu={formData} />
         </div>
       </div>

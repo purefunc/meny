@@ -1,9 +1,8 @@
-
 import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@/components/ui/card";
 import {
   FormControl,
@@ -11,17 +10,16 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-
 
 export function DetailsFields({ form }) {
   return (
     <>
       <CardHeader>
-        <CardTitle id="general">Menu Details</CardTitle>
+        <CardTitle id="details">Menu Details</CardTitle>
         <CardDescription>
           This will show at the top of the menu and in the meta data.
         </CardDescription>
