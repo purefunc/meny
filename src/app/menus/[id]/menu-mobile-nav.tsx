@@ -3,6 +3,12 @@ import { useCallback, useMemo, useState } from "react";
 
 import { ChevronDown, Search } from "lucide-react";
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,7 +18,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 
-export default function MenuMobileNav({ categories }) {
+export default function MenuMobileNav({
+  categories,
+  openCategoryAccordions,
+  toggleCategoryAccordion,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -81,7 +91,7 @@ export default function MenuMobileNav({ categories }) {
             <DropdownMenuItem asChild>
               <Link
                 href="#details"
-                className="px-2 py-1.5 font-semibold hover:bg-accent"
+                className="px-2 py-1.5 text-base font-semibold hover:bg-accent"
                 onClick={(e) => handleLinkClick(e, "details")}
               >
                 Details
@@ -89,37 +99,43 @@ export default function MenuMobileNav({ categories }) {
             </DropdownMenuItem>
           )}
 
-          {filteredCategories.map((category, index) => (
-            <div
-              key={`category-${category.id}-${index}`}
-              className="flex w-full flex-col"
-            >
-              <DropdownMenuItem asChild>
-                <Link
-                  href={`#category-${category.id}-${index}`}
-                  className="px-2 py-1.5 font-semibold hover:bg-accent"
-                  onClick={(e) => handleLinkClick(e, `category-${index}`)}
-                >
+          <Accordion
+            type="multiple"
+            className="w-full"
+            value={openCategoryAccordions}
+            onValueChange={toggleCategoryAccordion}
+          >
+            {filteredCategories.map((category, index) => (
+              <AccordionItem
+                key={`category-${category.id}-${index}`}
+                value={`category-${index}`}
+              >
+                <AccordionTrigger className="px-2 py-1.5 text-base font-semibold hover:bg-accent">
                   {category.name || `Category ${index + 1}`}
-                </Link>
-              </DropdownMenuItem>
-              {category?.menuItems?.map((item, inx) => (
-                <DropdownMenuItem key={`item-${inx}`} asChild>
-                  <Link
-                    href={`#item-${index}-${inx}`}
-                    className="px-4 py-1.5 text-sm hover:bg-accent"
-                    onClick={(e) => handleLinkClick(e, `item-${index}-${inx}`)}
-                  >
-                    {item.name || `Item ${inx + 1}`}
-                  </Link>
-                </DropdownMenuItem>
-              ))}
-            </div>
-          ))}
+                </AccordionTrigger>
+                <AccordionContent>
+                  {category?.menuItems?.map((item, inx) => (
+                    <DropdownMenuItem key={`item-${inx}`} asChild>
+                      <Link
+                        href={`#item-${index}-${inx}`}
+                        className="px-4 py-1.5 text-base hover:bg-accent"
+                        onClick={(e) =>
+                          handleLinkClick(e, `item-${index}-${inx}`)
+                        }
+                      >
+                        {item.name || `Item ${inx + 1}`}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+
           <DropdownMenuItem asChild>
             <Link
               href="#footer"
-              className="px-2 py-1.5 font-semibold hover:bg-accent"
+              className="px-2 py-1.5 text-base font-semibold hover:bg-accent"
               onClick={(e) => handleLinkClick(e, "footer")}
             >
               Menu Footer

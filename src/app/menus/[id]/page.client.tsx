@@ -162,7 +162,11 @@ export default function MenuClient({ menu }) {
       </div>
       <div className="grid w-full flex-grow grid-cols-1 overflow-hidden md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr_375px]">
         <div className="flex flex-col">
-          <MenuMobileNav categories={formData.categories} />
+          <MenuMobileNav
+            categories={formData.categories}
+            openCategoryAccordions={openCategoryAccordions}
+            toggleCategoryAccordion={toggleCategoryAccordion}
+          />
           <MenuNav
             categories={formData.categories}
             toggleCategoryAccordion={toggleCategoryAccordion}
