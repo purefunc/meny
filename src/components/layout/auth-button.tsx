@@ -20,7 +20,7 @@ export default function AuthButton() {
   if (status === "authenticated") {
     const signOutClick = () =>
       signOut({
-        callbackUrl: "/",
+        callbackUrl: "/login",
       });
 
     return <DropdownMenuItem onClick={signOutClick}>Sign Out</DropdownMenuItem>;
@@ -30,7 +30,7 @@ export default function AuthButton() {
     <Button
       onClick={() =>
         signIn("google", {
-          callbackUrl: "/profile",
+          callbackUrl: "/menus",
         })
       }
     >

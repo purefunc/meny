@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { BookOpenText, Home, Settings } from "lucide-react";
+import { ChefHat, Home, Settings } from "lucide-react";
 
 import { APP_NAME } from "@/app/constants";
 
@@ -29,8 +29,8 @@ export default function SideNav() {
   return (
     <aside className="bg-black-950 fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
       <nav className="flex flex-col items-center gap-4 px-2 sm:py-4">
-        <div className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base">
-          <BookOpenText className="h-4 w-4 transition-all group-hover:scale-110" />
+        <div className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-gradient-to-br from-primary/10 to-primary/30 text-lg font-semibold text-primary md:h-8 md:w-8 md:text-base">
+          <ChefHat className="h-6 w-6" />
           <span className="sr-only">{APP_NAME}</span>
         </div>
         {routes.map(({ label, href, icon }) => (

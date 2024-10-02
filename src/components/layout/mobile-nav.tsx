@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { BookOpenText, PanelLeft, Settings } from "lucide-react";
+import { ChefHat, PanelLeft, Settings } from "lucide-react";
 
 import { APP_NAME } from "@/app/constants";
 
@@ -19,8 +19,8 @@ const MobileNav = () => {
       </SheetTrigger>
       <SheetContent side="left" className="sm:max-w-xs">
         <nav className="grid gap-6 text-lg font-medium">
-          <div className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base">
-            <BookOpenText className="h-5 w-5 transition-all group-hover:scale-110" />
+          <div className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-gradient-to-br from-primary/10 to-primary/30 text-lg font-semibold text-primary md:h-8 md:w-8 md:text-base">
+            <ChefHat className="h-6 w-6" />
             <span className="sr-only">{APP_NAME}</span>
           </div>
           {routes.map(({ label, href, icon }) => (

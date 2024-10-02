@@ -1,5 +1,7 @@
 import { Plus } from "lucide-react";
+import { getServerSession } from "next-auth";
 
+// Add this import
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -9,13 +11,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import options from "@/config/auth";
 import db from "@/db";
 
 import MenuCard from "./menu-card";
 import MenusClient from "./page.client";
 
 export default async function MenusPage() {
+  const session = await getServerSession(options);
+
   const menus = await db.query.menus.findMany({
+    where: (menus, { eq }) => eq(menus.userId, session.user.id),
     orderBy(fields, operators) {
       return operators.desc(fields.createdAt);
     },
