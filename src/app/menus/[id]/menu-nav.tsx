@@ -15,10 +15,8 @@ export default function MenuNav({
 }) {
   const handleLinkClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-      console.log("targetId", targetId);
       e.preventDefault();
       const targetElement = document.getElementById(targetId);
-      console.log("targetElement", targetElement);
       if (targetElement) {
         targetElement.scrollIntoView({ behavior: "smooth" });
       }

@@ -35,7 +35,7 @@ export function MenuItemsFields({
   form,
   categoryIndex,
 }: {
-  form: any;
+  form: unknown;
   categoryIndex: number;
 }) {
   const { fields, append, remove } = useFieldArray({

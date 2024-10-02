@@ -54,6 +54,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.5.9",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/node": "^22",
     "@types/react": "^18",
@@ -71,5 +72,10 @@
     "tailwindcss": "^3.4.13",
     "typescript": "^5"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dockerfile": {
+    "secrets": [
+      "DATABASE_URL"
+    ]
+  }
 }

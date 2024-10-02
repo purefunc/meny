@@ -33,7 +33,6 @@ export async function updateMenu(data: z.infer<typeof MenuSchema>) {
     const session = (await getServerSession(options))!;
 
     await db.transaction(async (tx) => {
-      console.log("Updating menu:", id);
       // Update menu
       await tx
         .update(menus)
@@ -189,8 +188,8 @@ export async function updateMenu(data: z.infer<typeof MenuSchema>) {
 
 // Helper function to check if an object has changed
 function hasChanged(
-  existing: Record<string, any>,
-  updated: Record<string, any>
+  existing: Record<string, unknown>,
+  updated: Record<string, unknown>
 ): boolean {
   return Object.keys(updated).some((key) => existing[key] !== updated[key]);
 }

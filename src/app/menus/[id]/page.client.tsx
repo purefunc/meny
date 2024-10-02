@@ -99,7 +99,6 @@ export default function MenuClient({ menu }) {
   >([]);
 
   const toggleCategoryAccordion = (categoryIds: string[]) => {
-    console.log("categoryIds", categoryIds);
     setOpenCategoryAccordions(categoryIds);
   };
 
