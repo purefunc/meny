@@ -24,10 +24,7 @@ export default function MenuForm({
   const router = useRouter();
 
   const onSubmit = async (values: z.infer<typeof MenuSchema>) => {
-    console.log("Submitting values:", JSON.stringify(values, null, 2));
-
     const result = await updateMenu(values);
-    console.log("result", result);
 
     router.refresh();
 
@@ -37,8 +34,6 @@ export default function MenuForm({
     //   toast.error(result?.message || "Failed to update menu");
     // }
   };
-
-  console.log("Form errors:", form.formState.errors);
 
   return (
     <>
@@ -60,12 +55,7 @@ export default function MenuForm({
         </form>
 
         <CardFooter className="mt-auto rounded-b-lg bg-card py-4">
-          <Button
-            type="submit"
-            form="menu-form"
-            className="w-full"
-            onClick={() => console.log("Update Menu button clicked")}
-          >
+          <Button type="submit" form="menu-form" className="w-full">
             Update Menu
           </Button>
         </CardFooter>

@@ -34,8 +34,6 @@ export async function createMenu(prevState: unknown, formData: FormData) {
     })
     .returning();
 
-  console.log("Inserted menu ID:", insertedMenu.id);
-
-  revalidatePath(`/menus`);
+  revalidatePath("/menus");
   redirect(`/menus/${insertedMenu.id}`);
 }

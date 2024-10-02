@@ -33,7 +33,6 @@ export async function updateMenu(data: z.infer<typeof MenuSchema>) {
     const session = (await getServerSession(options))!;
 
     await db.transaction(async (tx) => {
-      console.log("Updating menu:", id);
       // Update menu
       await tx
         .update(menus)

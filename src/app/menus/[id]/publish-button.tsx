@@ -37,7 +37,6 @@ export default function PublishButton({ menu }) {
 
   const onSubmit = async (values: z.infer<typeof TogglePublishMenuSchema>) => {
     const result = await toggleMenuPublicStatus(values);
-    console.log("result", result);
 
     router.refresh();
 
