@@ -33,6 +33,9 @@ RUN pnpm install --frozen-lockfile --prod=false
 
 # Copy application code
 COPY . .
+COPY --from=build /app/.next/standalone /app
+COPY --from=build /app/.next/static /app/.next/static
+COPY --from=build /app/public /app/public
 
 # Define env vars
 ARG GOOGLE_CLIENT_ID
