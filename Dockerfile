@@ -12,6 +12,9 @@ WORKDIR /app
 # Set production environment
 ENV NODE_ENV="production"
 
+# Uncomment the following line in case you want to disable telemetry during runtime.
+ENV NEXT_TELEMETRY_DISABLED=1
+
 # Install pnpm
 ARG PNPM_VERSION=9.11.0
 RUN npm install -g pnpm@$PNPM_VERSION
@@ -31,11 +34,16 @@ RUN pnpm install --frozen-lockfile --prod=false
 # Copy application code
 COPY . .
 
+# Define env vars
+ARG GOOGLE_CLIENT_ID
+ARG GOOGLE_CLIENT_SECRET
+ARG NEXTAUTH_URL
+ARG NEXTAUTH_SECRET
+
 # Build application
-# RUN --mount=type=secret,id=DATABASE_URL \
-#     DATABASE_URL="$(cat /run/secrets/DATABASE_URL)" \
-#     pnpm run build
-RUN pnpm run build
+RUN --mount=type=secret,id=DATABASE_URL \
+    DATABASE_URL="$(cat /run/secrets/DATABASE_URL)" \
+    pnpm run build
 
 # Remove development dependencies
 RUN pnpm prune --prod
