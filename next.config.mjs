@@ -7,6 +7,7 @@ jiti("./src/env/server.ts");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",
   experimental: {
     typedRoutes: true,
   },
