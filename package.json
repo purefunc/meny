@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "deploy": "fly deploy --build-secret GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID} --build-secret GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET} --build-secret NEXTAUTH_URL=${NEXTAUTH_URL} --build-secret NEXTAUTH_SECRET=${NEXTAUTH_SECRET} --build-secret DATABASE_URL=${DATABASE_URL} --build-secret DB_HOST=${DB_HOST} --build-secret DB_USER=${DB_USER} --build-secret DB_PASSWORD=${DB_PASSWORD} --build-secret DB_NAME=${DB_NAME} --build-secret DB_PORT=${DB_PORT}",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier src/ --write",
@@ -54,6 +55,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.5.9",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/node": "^22",
     "@types/react": "^18",
@@ -71,5 +73,12 @@
     "tailwindcss": "^3.4.13",
     "typescript": "^5"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dockerfile": {
+    "secrets": [
+      "DATABASE_URL",
+      "DB_HOST",
+      "DB_USER"
+    ]
+  }
 }

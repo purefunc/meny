@@ -74,8 +74,8 @@ export default function Menu({ menu }) {
 
                       {category.menuItems
                         .filter(({ isHidden }) => !isHidden)
-                        .map((item, indx) => (
-                          <div key={item.indx} className="mb-4">
+                        .map((item, idx) => (
+                          <div key={idx} className="mb-4">
                             <div className="flex justify-between">
                               <h3 className="text-lg font-semibold">
                                 {item.name}
