@@ -1,8 +1,7 @@
-# Next PG Starter
+# Meny
 
-A basic Next.js starter with Postgres.
+A Digital Menu Generator
 
-- [Next PG Starter](#next-start)
   - [Stack](#stack)
   - [Setup](#setup)
 
@@ -46,6 +45,8 @@ A basic Next.js starter with Postgres.
   - [next-auth](https://www.npmjs.com/package/next-auth)
   - [@auth/drizzle-adapter](https://www.npmjs.com/package/@auth/drizzle-adapter)
     - [Auth.js Drizzle Adapter Documentation](https://authjs.dev/getting-started/adapters/drizzle)
+- Deploy
+ -[fly](https://fly.io)
 
 
 ## Setup
@@ -62,13 +63,7 @@ pnpm install
 cp .env.example .env
 ```
 
-3. Update the following values in the `.env` file:
-
-```sh
-NEXTAUTH_SECRET=your-value-here
-GOOGLE_CLIENT_ID=your-value-here
-GOOGLE_CLIENT_SECRET=your-value-here
-```
+3. Update the values in the `.env` file:
 
 4. Start the database:
 
@@ -76,9 +71,10 @@ GOOGLE_CLIENT_SECRET=your-value-here
 docker compose up
 ```
 
-5. Migrate the database:
+5. Generate & Migrate the database:
 
 ```sh
+pnpm run db:generate
 pnpm run db:migrate
 ```
 
@@ -87,3 +83,8 @@ pnpm run db:migrate
 ```sh
 pnpm run dev
 ```
+
+7. Deploy the app:
+```sh
+pnpm run deploy
+``
