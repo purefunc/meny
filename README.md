@@ -46,7 +46,7 @@ A Digital Menu Generator
   - [@auth/drizzle-adapter](https://www.npmjs.com/package/@auth/drizzle-adapter)
     - [Auth.js Drizzle Adapter Documentation](https://authjs.dev/getting-started/adapters/drizzle)
 - Deploy
- -[fly](https://fly.io)
+    - [fly.io](https://fly.io)
 
 
 ## Setup
