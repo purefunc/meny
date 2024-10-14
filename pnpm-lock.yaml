@@ -84,8 +84,8 @@ importers:
         specifier: ^11.5.6
         version: 11.11.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       jiti:
-        specifier: ^1.21.6
-        version: 1.21.6
+        specifier: ^2.3.3
+        version: 2.3.3
       lucide-react:
         specifier: ^0.445.0
         version: 0.445.0(react@18.3.1)
@@ -2350,6 +2350,10 @@ packages:
 
   jiti@1.21.6:
     resolution: {integrity: sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w==}
+    hasBin: true
+
+  jiti@2.3.3:
+    resolution: {integrity: sha512-EX4oNDwcXSivPrw2qKH2LB5PoFxEvgtv2JgwW0bU858HoLQ+kutSvjLMUqBd0PeJYEinLWhoI9Ol0eYMqj/wNQ==}
     hasBin: true
 
   jose@4.15.9:
@@ -5398,6 +5402,8 @@ snapshots:
   javascript-natural-sort@0.7.1: {}
 
   jiti@1.21.6: {}
+
+  jiti@2.3.3: {}
 
   jose@4.15.9: {}
 
