@@ -1,113 +1,288 @@
-import Image from "next/image";
+import { ThemeSwitcher } from "@/components/theme-switcher"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { CheckCircle, ChefHat, Smartphone, Utensils } from "lucide-react"
+import Link from "next/link"
+import HeaderAuth from "@/components/header-auth"
 
-export default function Home() {
+export default async function Index() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="flex min-h-screen flex-col">
+      <header className="flex h-14 items-center px-4 lg:px-6">
+        <Link className="flex items-center justify-center" href="/">
+          <ChefHat className="h-6 w-6" />
+          <span className="ml-2 text-2xl font-bold">Meny</span>
+        </Link>
+        <nav className="ml-auto flex items-center gap-4 sm:gap-6">
+          {/* <a
+            className="text-sm font-medium underline-offset-4 hover:underline"
+            href="#"
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
+            Features
           </a>
-        </div>
-      </div>
+          <a
+            className="text-sm font-medium underline-offset-4 hover:underline"
+            href="#"
+          >
+            Pricing
+          </a>
+          <a
+            className="text-sm font-medium underline-offset-4 hover:underline"
+            href="#"
+          >
+            About
+          </a>
+          <a
+            className="text-sm font-medium underline-offset-4 hover:underline"
+            href="#"
+          >
+            Contact
+          </a> */}
+          <HeaderAuth />
+        </nav>
+      </header>
+      <main className="flex-1">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="flex flex-col items-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h1 className="text-3xl font-bold tracking-tighter text-primary sm:text-4xl md:text-5xl lg:text-6xl/none">
+                  Create Beautiful Digital Menus
+                </h1>
+                <p className="mx-auto max-w-[700px] text-gray-500 dark:text-gray-400 md:text-xl">
+                  Easily design and manage your restaurant&apos;s menu. Accessible on any mobile device for your
+                  customers.
+                </p>
+              </div>
+              <div className="space-x-4">
+                <Button>
+                  <Link href="/sign-up">Get Started</Link>
+                </Button>
+                {/* <Button variant="outline">Learn More</Button> */}
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="w-full bg-gray-100 py-12 dark:bg-gray-800 md:py-24 lg:py-32">
+          <div className="container mx-auto px-4 md:px-6">
+            <h2 className="mb-12 text-center text-3xl font-bold tracking-tighter sm:text-5xl">Key Features</h2>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <Card>
+                <CardHeader>
+                  <Smartphone className="mb-2 h-6 w-6" />
+                  <CardTitle>Mobile-Friendly</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p>Optimized for viewing on smartphones and tablets.</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <Utensils className="mb-2 h-6 w-6" />
+                  <CardTitle>Easy Customization</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p>Quickly update menu items, prices, and descriptions.</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CheckCircle className="mb-2 h-6 w-6" />
+                  <CardTitle>Real-Time Updates</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p>Changes reflect immediately on customer-facing menus.</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+        <section className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container mx-auto px-4 md:px-6">
+            <h2 className="mb-12 text-center text-3xl font-bold tracking-tighter sm:text-5xl">How It Works</h2>
+            <div className="grid gap-6 lg:grid-cols-3">
+              <div className="flex flex-col items-center text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary">
+                  <span className="text-background">1</span>
+                </div>
+                <h3 className="mt-4 text-xl font-bold">Sign Up</h3>
+                <p className="mt-2 text-gray-500">Create your account and set up your restaurant profile.</p>
+              </div>
+              <div className="flex flex-col items-center text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary">
+                  <span className="text-background">2</span>
+                </div>
+                <h3 className="mt-4 text-xl font-bold">Design Your Menu</h3>
+                <p className="mt-2 text-gray-500">Use our intuitive interface to add items and customize your menu.</p>
+              </div>
+              <div className="flex flex-col items-center text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary">
+                  <span className="text-background">3</span>
+                </div>
+                <h3 className="mt-4 text-xl font-bold">Share with Customers</h3>
+                <p className="mt-2 text-gray-500">Publish your menu and share the link with your customers.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* <section className="w-full bg-gray-100 py-12 dark:bg-gray-800 md:py-24 lg:py-32">
+          <div className="container mx-auto px-4 md:px-6">
+            <h2 className="mb-12 text-center text-3xl font-bold tracking-tighter sm:text-5xl">
+              What Our Customers Say
+            </h2>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Amazing Product</CardTitle>
+                  <CardDescription>Restaurant Owner</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>
+                    "Meny has revolutionized how we manage our menu. It's so
+                    easy to use and our customers love it!"
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Increased Sales</CardTitle>
+                  <CardDescription>Café Manager</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>
+                    "Since using Meny, we've seen a 20% increase in sales. The
+                    mobile-friendly menus are a game-changer."
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>User-Friendly</CardTitle>
+                  <CardDescription>Food Truck Owner</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>
+                    "As a small business owner, Meny has made it incredibly easy
+                    to keep my menu up-to-date on the go."
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section> */}
+        {/* <section className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="mb-12 text-center">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                Pricing Plans
+              </h2>
+              <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
+                Choose the plan that fits your restaurant's needs. Save with our
+                annual billing option!
+              </p>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Starter</CardTitle>
+                  <CardDescription>
+                    Perfect for small restaurants
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex justify-center space-x-4">
+                    <p className="text-4xl font-bold">
+                      $4.99<span className="text-lg">/mo</span>
+                    </p>
+                    <p className="text-4xl font-bold">
+                      $49<span className="text-lg">/yr</span>
+                    </p>
+                  </div>
+                  <ul className="mt-4 space-y-2">
+                    <li className="flex items-center">
+                      <CheckCircle className="mr-2 h-4 w-4 text-green-500" />
+                      One menu
+                    </li>
+                    <li className="flex items-center">
+                      <CheckCircle className="mr-2 h-4 w-4 text-green-500" />
+                      Up to 50 menu items
+                    </li>
+                    <li className="flex items-center">
+                      <CheckCircle className="mr-2 h-4 w-4 text-green-500" />
+                      Basic customization
+                    </li>
+                    <li className="flex items-center">
+                      <CheckCircle className="mr-2 h-4 w-4 text-green-500" />
+                      Email support
+                    </li>
+                  </ul>
+                  <Button className="mt-6 w-full">Choose Plan</Button>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Pro</CardTitle>
+                  <CardDescription>For growing businesses</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex justify-center space-x-4">
+                    <p className="text-4xl font-bold">
+                      $19<span className="text-lg">/mo</span>
+                    </p>
+                    <p className="text-4xl font-bold">
+                      $199<span className="text-lg">/yr</span>
+                    </p>
+                  </div>
+                  <ul className="mt-4 space-y-2">
+                    <li className="flex items-center">
+                      <CheckCircle className="mr-2 h-4 w-4 text-green-500" />
+                      Multiple menus
+                    </li>
+                    <li className="flex items-center">
+                      <CheckCircle className="mr-2 h-4 w-4 text-green-500" />
+                      Unlimited menu items
+                    </li>
+                    <li className="flex items-center">
+                      <CheckCircle className="mr-2 h-4 w-4 text-green-500" />
+                      Advanced customization
+                    </li>
+                    <li className="flex items-center">
+                      <CheckCircle className="mr-2 h-4 w-4 text-green-500" />
+                      Priority support
+                    </li>
+                  </ul>
+                  <Button className="mt-6 w-full">Choose Plan</Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section> */}
+        <section className="w-full bg-blue-100 py-12 dark:bg-blue-900 md:py-24">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="flex flex-col items-center space-y-4 text-center">
+              <h2 className="text-3xl font-bold tracking-tighter text-blue-800 dark:text-blue-100 sm:text-4xl md:text-5xl">
+                Ready to Create Your Digital Menu?
+              </h2>
+              <p className="max-w-[600px] text-xl text-blue-600 dark:text-blue-200">
+                Join thousands of restaurants already using Meny to streamline their menu management.
+              </p>
+              <Button size="lg" asChild>
+                <Link href="/sign-up">Get Started Now</Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+      </main>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+      <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16">
+        <p>
+          Powered by{" "}
+          <a href="https://purefunc.io" target="_blank" className="font-bold hover:underline" rel="noreferrer">
+            Pure Func
+          </a>
+        </p>
+        <ThemeSwitcher />
+      </footer>
+    </div>
+  )
 }
