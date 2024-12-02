@@ -1,3 +1,5 @@
+export const runtime = "edge"
+
 import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default async function AppPage() {
